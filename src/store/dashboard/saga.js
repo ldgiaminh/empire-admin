@@ -8,7 +8,7 @@ import { apiSuccess, apiFail } from "./actions";
 import {
     getWeeklyData,
     getYearlyData,
-    getMonthlyData,
+    getMonthlyData
 }
     from "../../helpers/fakebackend_helper";
 
@@ -30,7 +30,6 @@ function* getChartsData({ payload: periodType }) {
         yield put(apiFail(GET_CHARTS_DATA, error));
     }
 }
-
 
 export function* watchGetChartsData() {
     yield takeEvery(GET_CHARTS_DATA, getChartsData);

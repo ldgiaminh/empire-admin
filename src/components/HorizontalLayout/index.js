@@ -1,150 +1,148 @@
-import React, { Component } from "react"
-import PropTypes from 'prop-types'
-import { connect } from "react-redux"
-import { withRouter } from "react-router-dom"
-import { I18nextProvider } from "react-i18next"
-import i18n from "../../i18n"
+import React, { useEffect, useState } from 'react';
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 
+//actions
 import {
   changeLayout,
   changeTopbarTheme,
-  toggleRightSidebar,
   changeLayoutWidth,
-} from "../../store/actions"
+  showRightSidebarAction
+} from "../../store/actions";
 
-// Other Layout related Component
+//redux
+import { useSelector, useDispatch } from "react-redux";
+
+//components
 import Navbar from "./Navbar";
 import Header from "./Header";
 import Footer from "./Footer";
-import RightSidebar from '../CommonForBoth/RightSidebar';
+import RightSidebar from "../CommonForBoth/RightSidebar";
 
-class Layout extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      isMenuOpened: false,
-    }
-    this.toggleRightSidebar = this.toggleRightSidebar.bind(this)
-    this.hideRightbar = this.hideRightbar.bind(this)
-  }
+const Layout = (props) => {
 
-  /**
-   * Open/close right sidebar
-   */
-  toggleRightSidebar() {
-    this.props.toggleRightSidebar()
-  }
+  const dispatch = useDispatch();
 
-  componentDidMount() {
+  const {
+    topbarTheme, layoutWidth, isPreloader, showRightSidebar
+  } = useSelector(state => ({
+    topbarTheme: state.Layout.topbarTheme,
+    layoutWidth: state.Layout.layoutWidth,
+    isPreloader: state.Layout.isPreloader,
+    showRightSidebar: state.Layout.showRightSidebar,
+  }));
 
-    document.body.addEventListener("click", this.hideRightbar, true);
+  /*
+  document title
+  */
+  useEffect(() => {
+    const title = props.location.pathname;
+    let currentage = title.charAt(1).toUpperCase() + title.slice(2);
 
-    if (this.props.isPreloader === true) {
-      document.getElementById("preloader").style.display = "block"
-      document.getElementById("status").style.display = "block"
+    document.title =
+      currentage + " | Skote - React Admin & Dashboard Template";
+  }, [props.location.pathname]);
 
-      setTimeout(function () {
-        document.getElementById("preloader").style.display = "none"
-        document.getElementById("status").style.display = "none"
-      }, 2500)
-    } else {
-      document.getElementById("preloader").style.display = "none"
-      document.getElementById("status").style.display = "none"
-    }
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-    // Scrollto 0,0
-    window.scrollTo(0, 0)
-
-    // const title = this.props.location.pathname
-    // let currentage = title.charAt(1).toUpperCase() + title.slice(2)
-
-    // document.title =
-    //   currentage + " | Skote - React Admin & Dashboard Template"
-
-    this.props.changeLayout("horizontal")
-    if (this.props.topbarTheme) {
-      this.props.changeTopbarTheme(this.props.topbarTheme)
-    }
-    if (this.props.layoutWidth) {
-      this.props.changeLayoutWidth(this.props.layoutWidth)
-    }
-  }
-
-  /**
-   * Opens the menu - mobile
-   */
-  openMenu = e => {
-    this.setState({ isMenuOpened: !this.state.isMenuOpened })
-  }
 
   //hides right sidebar on body click
-  hideRightbar = (event) => {
+  const hideRightbar = (event) => {
     var rightbar = document.getElementById("right-bar");
     //if clicked in inside right bar, then do nothing
     if (rightbar && rightbar.contains(event.target)) {
       return;
     } else {
-      if(document.body.classList.contains('right-bar-enabled')){
-        this.props.toggleRightSidebar(false)
-      }
+      //if clicked in outside of rightbar then fire action for hide rightbar
+      dispatch(showRightSidebarAction(false));
     }
   };
 
-  render() {
-    return (
-      <React.Fragment>
-        <I18nextProvider i18n={i18n}>
-          <div id="preloader">
-            <div id="status">
-              <div className="spinner-chase">
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-              </div>
-            </div>
+  /*
+  layout settings
+  */
+  useEffect(() => {
+    dispatch(changeLayout("horizontal"));
+  }, [dispatch]);
+
+  useEffect(() => {
+    //init body click event fot toggle rightbar
+    document.body.addEventListener("click", hideRightbar, true);
+
+    if (isPreloader === true) {
+      document.getElementById("preloader").style.display = "block";
+      document.getElementById("status").style.display = "block";
+
+      setTimeout(function () {
+        document.getElementById("preloader").style.display = "none";
+        document.getElementById("status").style.display = "none";
+      }, 2500);
+    } else {
+      document.getElementById("preloader").style.display = "none";
+      document.getElementById("status").style.display = "none";
+    }
+  }, [isPreloader]);
+
+  useEffect(() => {
+    if (topbarTheme) {
+      dispatch(changeTopbarTheme(topbarTheme));
+    }
+  }, [dispatch, topbarTheme]);
+
+  useEffect(() => {
+    if (layoutWidth) {
+      dispatch(changeLayoutWidth(layoutWidth));
+    }
+  }, [dispatch, layoutWidth]);
+
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
+  const openMenu = () => {
+    setIsMenuOpened(!isMenuOpened);
+  };
+
+  return (
+    <React.Fragment>
+      <div id="preloader">
+        <div id="status">
+          <div className="spinner-chase">
+            <div className="chase-dot" />
+            <div className="chase-dot" />
+            <div className="chase-dot" />
+            <div className="chase-dot" />
+            <div className="chase-dot" />
+            <div className="chase-dot" />
           </div>
-          <div id="layout-wrapper">
-            <Header
-              theme={this.props.topbarTheme}
-              isMenuOpened={this.state.isMenuOpened}
-              toggleRightSidebar={this.toggleRightSidebar}
-              openLeftMenuCallBack={this.openMenu}
-            />
-            <Navbar menuOpen={this.state.isMenuOpened} />
-            <div className="main-content">{this.props.children}</div>
-            <Footer />
-          </div>
-          {this.props.showRightSidebar ? <RightSidebar /> : null}
-        </I18nextProvider>
-      </React.Fragment>
-    )
-  }
-}
+        </div>
+      </div>
+
+      <div id="layout-wrapper">
+        <Header
+          theme={topbarTheme}
+          isMenuOpened={isMenuOpened}
+          openLeftMenuCallBack={openMenu}
+        />
+        <Navbar menuOpen={isMenuOpened} />
+        <div className="main-content">{props.children}</div>
+        <Footer />
+      </div>
+
+      {showRightSidebar ? <RightSidebar /> : null}
+    </React.Fragment>
+  );
+};
 
 Layout.propTypes = {
-  changeLayout: PropTypes.func,
+  changeLayout: PropTypes.func,/*  */
   changeLayoutWidth: PropTypes.func,
   changeTopbarTheme: PropTypes.func,
   children: PropTypes.object,
-  isPreloader: PropTypes.bool,
-  layoutWidth: PropTypes.string,
+  isPreloader: PropTypes.any,
+  layoutWidth: PropTypes.any,
   location: PropTypes.object,
   showRightSidebar: PropTypes.any,
-  toggleRightSidebar: PropTypes.func,
   topbarTheme: PropTypes.any
-}
+};
 
-const mapStateToProps = state => {
-  return {
-    ...state.Layout,
-  }
-}
-export default connect(mapStateToProps, {
-  changeTopbarTheme,
-  toggleRightSidebar,
-  changeLayout,
-  changeLayoutWidth,
-})(withRouter(Layout))
+export default withRouter(Layout);

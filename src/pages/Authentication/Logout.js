@@ -1,27 +1,25 @@
-import React, { Component } from "react"
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types"
+import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 
 import { logoutUser } from "../../store/actions"
 
-class Logout extends Component {
-  /**
-   * Redirect to login
-   */
-  componentDidMount = () => {
-    // emit the event
-    this.props.logoutUser(this.props.history)
-  }
+//redux
+import { useSelector, useDispatch } from "react-redux"
 
-  render() {
-    return <React.Fragment></React.Fragment>
-  }
+const Logout = props => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(logoutUser(props.history))
+  }, [dispatch])
+
+  return <></>
 }
 
 Logout.propTypes = {
-  history: PropTypes.any,
-  logoutUser: PropTypes.func
+  history: PropTypes.object,
 }
 
-export default withRouter(connect(null, { logoutUser })(Logout))
+export default withRouter(Logout)

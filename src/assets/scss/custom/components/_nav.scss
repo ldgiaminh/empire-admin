@@ -8,14 +8,6 @@
   color: #fff;
 }
 
-.icon-tab li:first-child .nav-link{
-  border-top-left-radius: 21px !important;
-  border-bottom-left-radius: 21px !important;
-}
-.icon-tab li:last-child .nav-link{
-  border-top-right-radius: 21px !important;
-  border-bottom-right-radius: 21px !important;
-}
 .icon-tab .nav-link i,.vertical-icon .nav-link i{
   padding-right: 3px;
   font-size: 14px;
@@ -98,5 +90,3 @@ color: #495057;
       }
   }
 }
-
-

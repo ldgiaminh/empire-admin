@@ -1,6 +1,6 @@
 @import "../../assets/scss/theme.scss";
 
-.radio-toolbar {
+.radio-toolbar{
   label {
     display: inline-block;
     background-color: $gray-300;
@@ -21,10 +21,10 @@
     }
   }
   // color option
-  &.coloropt-radio {
+  &.coloropt-radio{
     input[type="radio"] {
       &:checked + label {
-        &:after {
+        &:after{
           content: "\F012C";
           position: absolute;
           font-family: "Material Design Icons";
@@ -34,33 +34,33 @@
           left: 50%;
           transform: translateX(-50%) translateY(-50%);
         }
-        &.bg-light {
-          &:after {
+        &.bg-light{
+          &:after{
             color: $primary;
           }
         }
       }
     }
 
-    label {
+    label{
       border: 1px solid $card-bg !important;
-      &.bg-light {
-        background-color: $card-bg;
-        border-color: $primary !important;
-      }
+        &.bg-light{
+          background-color: $card-bg;
+          border-color: $primary !important;
+        }
     }
   }
 
   // image option
-  &.imgopt-radio {
-    label {
+  &.imgopt-radio{
+    label{
       padding: 0;
       overflow: hidden;
       background: transparent;
     }
     input[type="radio"] {
       &:checked + label {
-        &::before {
+        &::before{
           content: "";
           position: absolute;
           left: 0;
@@ -70,7 +70,7 @@
           background-color: rgba($primary, 0.6);
         }
 
-        &:after {
+        &:after{
           content: "\F012C";
           position: absolute;
           font-family: "Material Design Icons";

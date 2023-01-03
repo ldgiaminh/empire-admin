@@ -22,8 +22,7 @@
   align-items: center;
   margin: 0 auto;
   height: $header-height;
-  padding: 0 calc(#{$grid-gutter-width} / 2) 0 0
-    /*rtl: 0 0 0 calc(#{$grid-gutter-width} / 2) */;
+  padding: 0 calc(#{$grid-gutter-width} / 2) 0 0 /*rtl: 0 0 0 calc(#{$grid-gutter-width} / 2) */;
 
   .dropdown {
     &.show {
@@ -149,13 +148,14 @@
 
 .notification-item {
   .d-flex {
-    padding: 0.75rem 1rem;
+      padding: 0.75rem 1rem;
 
-    &:hover {
-      background-color: $gray-300;
-    }
+      &:hover {
+          background-color: $gray-300;
+      }
   }
 }
+
 
 // Dropdown with Icons
 .dropdown-icon-item {

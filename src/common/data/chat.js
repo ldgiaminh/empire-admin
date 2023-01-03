@@ -1,6 +1,3 @@
-/**
- * Chat data
- */
 const chats = [
   {
     id: 1,
@@ -67,9 +64,6 @@ const chats = [
   },
 ]
 
-/**
- * group list data
- */
 const groups = [
   { id: 1, image: "G", name: "General" },
   { id: 2, image: "R", name: "Reporting" },
@@ -78,9 +72,6 @@ const groups = [
   { id: 5, image: "B", name: "Project B" },
 ]
 
-/**
- * contact list data
- */
 const contacts = [
   {
     category: "A",
@@ -107,43 +98,26 @@ const contacts = [
   },
 ]
 
-/**
- * message list data
- */
 const messages = [
   {
     id: 1,
     roomId: 1,
-    sender: "Steven Franklin",
+    sender: "Henry Wells",
     message: "Hello!",
-    createdAt: "2020-04-02T17:07:21.529Z",
+    createdAt: "2020-04-02T17:00:21.529Z",
   },
   {
     id: 2,
     roomId: 1,
     sender: "Henry Wells",
-    message: "Hi, How are you? What about our next meeting?",
-    createdAt: "2020-04-02T17:07:21.529Z",
+    message: "How are you ?",
+    createdAt: "2020-04-02T17:01:21.529Z",
   },
   {
     id: 3,
     roomId: 1,
     sender: "Steven Franklin",
-    message: "Yeah everything is fine",
-    createdAt: "2020-04-02T17:07:21.529Z",
-  },
-  {
-    id: 4,
-    roomId: 1,
-    sender: "Steven Franklin",
-    message: "& Next meeting tomorrow 10.00AM",
-    createdAt: "2020-04-02T17:07:21.529Z",
-  },
-  {
-    id: 5,
-    roomId: 1,
-    sender: "Henry Wells",
-    message: "Wow that's great",
+    message: "I am fine, What about you ?",
     createdAt: "2020-04-02T17:07:21.529Z",
   },
   {

@@ -4,22 +4,20 @@
 
 // dropdown
 
-.dropdown-megamenu{
-  &.show{
-    left: 20px!important;
+.dropdown-megamenu {
+  &.show {
+    left: 20px !important;
   }
 }
 
-
 // icons
 
-.icon-list-demo{
-  i{
+.icon-list-demo {
+  i {
     margin-left: 12px;
     margin-right: 0;
   }
 }
-
 
 // Breadcrumb
 
@@ -31,19 +29,18 @@
 
 // icon tabs
 
-.icon-tab li:first-child .nav-link{
+.icon-tab li:first-child .nav-link {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
   border-top-right-radius: 21px !important;
   border-bottom-right-radius: 21px !important;
 }
-.icon-tab li:last-child .nav-link{
+.icon-tab li:last-child .nav-link {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   border-top-left-radius: 21px !important;
   border-bottom-left-radius: 21px !important;
 }
-
 
 // Invoice
 
@@ -51,11 +48,11 @@
   .content-page,
   .content,
   body {
-      margin-right: 0;
+    margin-right: 0;
   }
 }
 
-// Demos button 
+// Demos button
 .demos-show-btn {
   left: 0;
   right: auto;

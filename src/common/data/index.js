@@ -1,8 +1,16 @@
 // import React from "react"
-import { cryptoOrders, wallet } from "./crypto";
-import { invoiceList } from "./invoices";
-import { projects } from "./projects";
-import { tasks } from "./tasks";
+import { cryptoOrders, wallet } from "./crypto"
+import { invoiceList } from "./invoices"
+import { projects } from "./projects"
+import { tasks } from "./tasks"
+import {
+  inboxmails,
+  starredmails,
+  importantmails,
+  draftmails,
+  sentmails,
+  trashmails,
+} from "./mails"
 import {
   cartData,
   comments,
@@ -12,12 +20,13 @@ import {
   productsData,
   recentProducts,
   shops,
-} from "./ecommerce";
-import { chats, contacts, groups, messages } from "./chat";
-import { inboxmails, starredmails, importantmails, draftmails, sentmails, trashmails } from "./mails";
-import { calenderDefaultCategories, events } from "./calender";
-import { users, userProfile } from "./contacts";
-import { yearData, monthData, weekData } from './dashboard';
+  productComments
+} from "./ecommerce"
+import { chats, contacts, groups, messages } from "./chat"
+import { calenderDefaultCategories, events } from "./calender"
+import { users, userProfile } from "./contacts"
+import { yearData, monthData, weekData } from "./dashboard"
+
 import {
   janTopSellingData,
   decTopSellingData,
@@ -27,8 +36,8 @@ import {
   decEarningData,
   novEarningData,
   octEarningData,
-  chatData
-} from "./dashboard-saas";
+  chatData,
+} from "./dashboard-saas"
 
 export {
   productsData,
@@ -69,5 +78,6 @@ export {
   decEarningData,
   novEarningData,
   octEarningData,
-  chatData
+  chatData,
+  productComments
 }

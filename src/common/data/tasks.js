@@ -1,7 +1,7 @@
 const tasks = [
   {
     id: 1,
-    title: "Upcoming",
+    title: "Example",
     tasks: [
       {
         id: 11,

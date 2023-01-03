@@ -8,7 +8,7 @@
 @import "./bootstrap.scss";
 @import "./app.scss";
 
-// RTL Mode
+// // RTL Mode
 // @import "./rtl/bootstrap-rtl";
 // @import "./rtl/components-rtl";
 // @import "./rtl/float-rtl";
@@ -361,7 +361,6 @@ span.flatpickr-weekday {
     }
   }
 }
-
 .rightbar-title .right-bar-toggle {
   background-color: #444c54 !important;
   height: 24px !important;
@@ -381,7 +380,18 @@ span.flatpickr-weekday {
   background: rgba(0, 0, 0, 0.15) !important;
 }
 
-/*  tui charts**/
-.tui-chart .tui-chart-chartExportMenu-area {
-  z-index: 1 !important;
+//react-table
+.custom-header-css {
+  thead {
+    tr {
+      th {
+        div:last-child {
+          min-height: 38px;
+        }
+      }
+    }
+    td:nth-last-child(2) {
+      width: 150px !important;
+    }
+  }
 }

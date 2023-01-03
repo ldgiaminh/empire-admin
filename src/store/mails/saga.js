@@ -32,7 +32,7 @@ import {
 } from "./actions"
 
 //Include Both Helper File with needed methods
-import {
+import {  
   getInboxMails,
   addNewInboxMail,
   deleteInboxMail,
@@ -43,90 +43,90 @@ import {
   getTrashMails,
 } from "helpers/fakebackend_helper"
 
-function* fetchInboxMails() {
-  try {
-    const response = yield call(getInboxMails)
-    yield put(getInboxMailsSuccess(response))
-  } catch (error) {
-    yield put(getInboxMailsFail(error))
+  function* fetchInboxMails() {
+    try {
+      const response = yield call(getInboxMails)
+      yield put(getInboxMailsSuccess(response))
+    } catch (error) {
+      yield put(getInboxMailsFail(error))
+    }
   }
-}
 
-function* fetchStarredMails() {
-  try {
-    const response = yield call(getStarredMails)
-    yield put(getStarredMailsSuccess(response))
-  } catch (error) {
-    yield put(getStarredMailsFail(error))
+  function* fetchStarredMails() {
+    try {
+      const response = yield call(getStarredMails)
+      yield put(getStarredMailsSuccess(response))
+    } catch (error) {
+      yield put(getStarredMailsFail(error))
+    }
   }
-}
 
-function* fetchImportantMails() {
-  try {
-    const response = yield call(getImportantMails)
-    yield put(getImportantMailsSuccess(response))
-  } catch (error) {
-    yield put(getImportantMailsFail(error))
+  function* fetchImportantMails() {
+    try {
+      const response = yield call(getImportantMails)
+      yield put(getImportantMailsSuccess(response))
+    } catch (error) {
+      yield put(getImportantMailsFail(error))
+    }
   }
-}
 
-function* fetchDraftMails() {
-  try {
-    const response = yield call(getDraftMails)
-    yield put(getDraftMailsSuccess(response))
-  } catch (error) {
-    yield put(getDraftMailsFail(error))
+  function* fetchDraftMails() {
+    try {
+      const response = yield call(getDraftMails)
+      yield put(getDraftMailsSuccess(response))
+    } catch (error) {
+      yield put(getDraftMailsFail(error))
+    }
   }
-}
 
-function* fetchSentMails() {
-  try {
-    const response = yield call(getSentMails)
-    yield put(getSentMailsSuccess(response))
-  } catch (error) {
-    yield put(getSentMailsFail(error))
+  function* fetchSentMails() {
+    try {
+      const response = yield call(getSentMails)
+      yield put(getSentMailsSuccess(response))
+    } catch (error) {
+      yield put(getSentMailsFail(error))
+    }
   }
-}
 
-function* fetchTrashMails() {
-  try {
-    const response = yield call(getTrashMails)
-    yield put(getTrashMailsSuccess(response))
-  } catch (error) {
-    yield put(getTrashMailsFail(error))
+  function* fetchTrashMails() {
+    try {
+      const response = yield call(getTrashMails)
+      yield put(getTrashMailsSuccess(response))
+    } catch (error) {
+      yield put(getTrashMailsFail(error))
+    }
   }
-}
-
-function* onAddNewInboxMail({ payload: inboxmail }) {
-  try {
-    const response = yield call(addNewInboxMail, inboxmail)
-    yield put(addInboxMailSuccess(response))
-  } catch (error) {
-
-    yield put(addInboxMailFail(error))
+  
+  function* onAddNewInboxMail({ payload: inboxmail }) {
+    try {
+      const response = yield call(addNewInboxMail, inboxmail)
+      yield put(addInboxMailSuccess(response))
+    } catch (error) {
+  
+      yield put(addInboxMailFail(error))
+    }
   }
-}
-
-function* onDeleteInboxMail({ payload: inboxmail }) {
-  try {
-    const response = yield call(deleteInboxMail, inboxmail)
-    yield put(deleteInboxMailSuccess(response))
-  } catch (error) {
-    yield put(deleteInboxMailFail(error))
+  
+  function* onDeleteInboxMail({ payload: inboxmail }) {
+    try {
+      const response = yield call(deleteInboxMail, inboxmail)
+      yield put(deleteInboxMailSuccess(response))
+    } catch (error) {
+      yield put(deleteInboxMailFail(error))
+    }
   }
-}
 
-
-
-function* mailsSaga() {
-  yield takeEvery(GET_INBOX_MAILS, fetchInboxMails)
-  yield takeEvery(GET_STARRED_MAILS, fetchStarredMails)
-  yield takeEvery(GET_IMPORTANT_MAILS, fetchImportantMails)
-  yield takeEvery(GET_DRAFT_MAILS, fetchDraftMails)
-  yield takeEvery(GET_SENT_MAILS, fetchSentMails)
-  yield takeEvery(GET_TRASH_MAILS, fetchTrashMails)
-  yield takeEvery(ADD_NEW_INBOX_MAIL, onAddNewInboxMail)
-  yield takeEvery(DELETE_INBOX_MAIL, onDeleteInboxMail)
-}
+  
+  
+  function* mailsSaga() {
+    yield takeEvery(GET_INBOX_MAILS, fetchInboxMails)
+    yield takeEvery(GET_STARRED_MAILS, fetchStarredMails)
+    yield takeEvery(GET_IMPORTANT_MAILS, fetchImportantMails)
+    yield takeEvery(GET_DRAFT_MAILS, fetchDraftMails)
+    yield takeEvery(GET_SENT_MAILS, fetchSentMails)
+    yield takeEvery(GET_TRASH_MAILS, fetchTrashMails)
+    yield takeEvery(ADD_NEW_INBOX_MAIL, onAddNewInboxMail)
+    yield takeEvery(DELETE_INBOX_MAIL, onDeleteInboxMail)
+  }
 
 export default mailsSaga

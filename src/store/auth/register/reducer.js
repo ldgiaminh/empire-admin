@@ -8,6 +8,7 @@ const initialState = {
   registrationError: null,
   message: null,
   loading: false,
+  user: null,
 }
 
 const account = (state = initialState, action) => {
@@ -15,7 +16,6 @@ const account = (state = initialState, action) => {
     case REGISTER_USER:
       state = {
         ...state,
-        user: null,
         loading: true,
         registrationError: null,
       }

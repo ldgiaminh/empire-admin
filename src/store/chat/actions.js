@@ -37,7 +37,7 @@ export const getGroups = () => ({
 export const getGroupsSuccess = groups => ({
   type: GET_GROUPS_SUCCESS,
   payload: groups,
-})
+});
 
 export const getGroupsFail = error => ({
   type: GET_GROUPS_FAIL,

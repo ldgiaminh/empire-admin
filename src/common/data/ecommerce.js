@@ -1,32 +1,32 @@
 /** Product 1 */
-import product1 from "../../assets/images/product/img-1.png";
-import product7 from "../../assets/images/product/Pro-1a.png";
-import product8 from "../../assets/images/product/Pro-1b.png";
+import product1 from "../../assets/images/product/img-1.png"
+import product7 from "../../assets/images/product/Pro-1a.png"
+import product8 from "../../assets/images/product/Pro-1b.png"
 
 /** Product 2 */
-import product2a from "../../assets/images/product/img-2.png";
-import product2b from "../../assets/images/product/Pro-2a.png";
-import product2c from "../../assets/images/product/Pro-2b.png";
+import product2a from "../../assets/images/product/img-2.png"
+import product2b from "../../assets/images/product/Pro-2a.png"
+import product2c from "../../assets/images/product/Pro-2b.png"
 
 /** Product 3 */
-import product3a from "../../assets/images/product/img-3.png";
-import product3b from "../../assets/images/product/Pro-4.png";
-import product3c from "../../assets/images/product/Pro-4a.png";
+import product3a from "../../assets/images/product/img-3.png"
+import product3b from "../../assets/images/product/Pro-4.png"
+import product3c from "../../assets/images/product/Pro-4a.png"
 
 /** Product 4 */
-import product4a from "../../assets/images/product/img-4.png";
-import product4b from "../../assets/images/product/Pro-12a.png";
-import product4c from "../../assets/images/product/Pro-12b.png";
+import product4a from "../../assets/images/product/img-4.png"
+import product4b from "../../assets/images/product/Pro-12a.png"
+import product4c from "../../assets/images/product/Pro-12b.png"
 
 /** Product 5 */
-import product5a from "../../assets/images/product/Pro-8.png";
-import product5b from "../../assets/images/product/Pro-8a.png";
-import product5c from "../../assets/images/product/Pro-8b.png";
+import product5a from "../../assets/images/product/Pro-8.png"
+import product5b from "../../assets/images/product/Pro-8a.png"
+import product5c from "../../assets/images/product/Pro-8b.png"
 
 /** Product 6 */
-import product6a from "../../assets/images/product/img-6.png";
-import product6b from "../../assets/images/product/Pro-17.png";
-import product6c from "../../assets/images/product/Pro-17a.png";
+import product6a from "../../assets/images/product/img-6.png"
+import product6b from "../../assets/images/product/Pro-17.png"
+import product6c from "../../assets/images/product/Pro-17a.png"
 
 const productsData = [
   {
@@ -262,7 +262,7 @@ const recentProducts = [
   {
     id: 1,
     img: "img7",
-    name: "Solid Color T-Shirt",
+    name: "Wireless Headphone",
     link: "",
     rating: 4,
     oldPrice: 240,
@@ -271,7 +271,7 @@ const recentProducts = [
   {
     id: 2,
     img: "img4",
-    name: "Smiley Plain T-shirt",
+    name: "Phone patterned cases",
     link: "",
     rating: 3,
     oldPrice: 150,
@@ -280,7 +280,7 @@ const recentProducts = [
   {
     id: 3,
     img: "img6",
-    name: "Sky blue color T-shirt",
+    name: "Phone Dark Patterned cases",
     link: "",
     rating: 4,
     oldPrice: 138,
@@ -336,7 +336,7 @@ const discountData = [
 
 const orders = [
   {
-    id: "1",
+    id: 2,
     orderId: "#SK2540",
     billingName: "Neal Matthews",
     orderdate: "2019-10-08",
@@ -347,7 +347,7 @@ const orders = [
     paymentMethod: "Mastercard",
   },
   {
-    id: "2",
+    id: 3,
     orderId: "#SK2541",
     billingName: "Jamal Burnett",
     orderdate: "2019-10-07",
@@ -358,7 +358,7 @@ const orders = [
     paymentMethod: "Visa",
   },
   {
-    id: "3",
+    id: 4,
     orderId: "#SK2542",
     billingName: "Juan Mitchell",
     orderdate: "2019-10-06",
@@ -369,7 +369,7 @@ const orders = [
     paymentMethod: "Paypal",
   },
   {
-    id: "4",
+    id: 5,
     orderId: "#SK2543",
     billingName: "Barry Dick",
     orderdate: "2019-10-05",
@@ -380,7 +380,7 @@ const orders = [
     paymentMethod: "Mastercard",
   },
   {
-    id: "5",
+    id: 6,
     orderId: "#SK2544",
     billingName: "Ronald Taylor",
     orderdate: "2019-10-04",
@@ -391,7 +391,7 @@ const orders = [
     paymentMethod: "Visa",
   },
   {
-    id: "6",
+    id: 7,
     orderId: "#SK2545",
     billingName: "Jacob Hunter",
     orderdate: "2019-10-04",
@@ -402,7 +402,7 @@ const orders = [
     paymentMethod: "Paypal",
   },
   {
-    id: "7",
+    id: 8,
     orderId: "#SK2546",
     billingName: "William Cruz",
     orderdate: "2019-10-03",
@@ -413,7 +413,7 @@ const orders = [
     paymentMethod: "COD",
   },
   {
-    id: "8",
+    id: 9,
     orderId: "#SK2547",
     billingName: "Dustin Moser",
     orderdate: "2019-10-02",
@@ -424,7 +424,7 @@ const orders = [
     paymentMethod: "Mastercard",
   },
   {
-    id: "9",
+    id: 10,
     orderId: "#SK2548",
     billingName: "Clark Benson",
     orderdate: "2019-10-01",
@@ -435,7 +435,7 @@ const orders = [
     paymentMethod: "Visa",
   },
   {
-    id: "10",
+    id: 11,
     orderId: "#SK2540",
     billingName: "Neal Matthews",
     orderdate: "2019-10-08",
@@ -446,7 +446,7 @@ const orders = [
     paymentMethod: "Mastercard",
   },
   {
-    id: "11",
+    id: 12,
     orderId: "#SK2541",
     billingName: "Jamal Burnett",
     orderdate: "2019-10-07",
@@ -457,7 +457,7 @@ const orders = [
     paymentMethod: "Visa",
   },
   {
-    id: "12",
+    id: 13,
     orderId: "#SK2542",
     billingName: "Juan Mitchell",
     orderdate: "2019-10-06",
@@ -468,7 +468,150 @@ const orders = [
     paymentMethod: "Paypal",
   },
   {
-    id: "13",
+    id: 14,
+    orderId: "#SK2543",
+    billingName: "Barry Dick",
+    orderdate: "2019-10-05",
+    total: "$412",
+    badgeclass: "success",
+    paymentStatus: "Paid",
+    methodIcon: "fa-cc-mastercard",
+    paymentMethod: "Mastercard",
+  },
+  {
+    id: 15,
+    orderId: "#SK2540",
+    billingName: "Neal Matthews",
+    orderdate: "2019-10-08",
+    total: "$400",
+    badgeclass: "success",
+    paymentStatus: "Paid",
+    methodIcon: "fa-cc-mastercard",
+    paymentMethod: "Mastercard",
+  },
+  {
+    id: 16,
+    orderId: "#SK2541",
+    billingName: "Jamal Burnett",
+    orderdate: "2019-10-07",
+    total: "$380",
+    badgeclass: "danger",
+    paymentStatus: "Chargeback",
+    methodIcon: "fa-cc-visa",
+    paymentMethod: "Visa",
+  },
+  {
+    id: 17,
+    orderId: "#SK2542",
+    billingName: "Juan Mitchell",
+    orderdate: "2019-10-06",
+    total: "$384",
+    badgeclass: "success",
+    paymentStatus: "Paid",
+    methodIcon: "fa-cc-paypal",
+    paymentMethod: "Paypal",
+  },
+  {
+    id: 18,
+    orderId: "#SK2543",
+    billingName: "Barry Dick",
+    orderdate: "2019-10-05",
+    total: "$412",
+    badgeclass: "success",
+    paymentStatus: "Paid",
+    methodIcon: "fa-cc-mastercard",
+    paymentMethod: "Mastercard",
+  },
+  {
+    id: 19,
+    orderId: "#SK2544",
+    billingName: "Ronald Taylor",
+    orderdate: "2019-10-04",
+    total: "$404",
+    badgeclass: "warning",
+    paymentStatus: "Refund",
+    methodIcon: "fa-cc-visa",
+    paymentMethod: "Visa",
+  },
+  {
+    id: 20,
+    orderId: "#SK2545",
+    billingName: "Jacob Hunter",
+    orderdate: "2019-10-04",
+    total: "$392",
+    badgeclass: "success",
+    paymentStatus: "Paid",
+    methodIcon: "fa-cc-paypal",
+    paymentMethod: "Paypal",
+  },
+  {
+    id: 21,
+    orderId: "#SK2546",
+    billingName: "William Cruz",
+    orderdate: "2019-10-03",
+    total: "$374",
+    badgeclass: "success",
+    paymentStatus: "Paid",
+    methodIcon: "fas fa-money-bill-alt",
+    paymentMethod: "COD",
+  },
+  {
+    id: 22,
+    orderId: "#SK2547",
+    billingName: "Dustin Moser",
+    orderdate: "2019-10-02",
+    total: "$350",
+    badgeclass: "success",
+    paymentStatus: "Paid",
+    methodIcon: "fa-cc-paypal",
+    paymentMethod: "Mastercard",
+  },
+  {
+    id: 23,
+    orderId: "#SK2548",
+    billingName: "Clark Benson",
+    orderdate: "2019-10-01",
+    total: "$345",
+    badgeclass: "warning",
+    paymentStatus: "Refund",
+    methodIcon: "fa-cc-paypal",
+    paymentMethod: "Visa",
+  },
+  {
+    id: 24,
+    orderId: "#SK2540",
+    billingName: "Neal Matthews",
+    orderdate: "2019-10-08",
+    total: "$400",
+    badgeclass: "success",
+    paymentStatus: "Paid",
+    methodIcon: "fa-cc-mastercard",
+    paymentMethod: "Mastercard",
+  },
+  {
+    id: 25,
+    orderId: "#SK2541",
+    billingName: "Jamal Burnett",
+    orderdate: "2019-10-07",
+    total: "$380",
+    badgeclass: "danger",
+    paymentStatus: "Chargeback",
+    methodIcon: "fa-cc-visa",
+    paymentMethod: "Visa",
+  },
+  {
+    id: 26,
+    orderId: "#SK2542",
+    billingName: "Juan Mitchell",
+    orderdate: "2019-10-06",
+    total: "$384",
+    badgeclass: "success",
+    paymentStatus: "Paid",
+    methodIcon: "fa-cc-paypal",
+    paymentMethod: "Paypal",
+  },
+  {
+    id: 27,
     orderId: "#SK2543",
     billingName: "Barry Dick",
     orderdate: "2019-10-05",
@@ -486,7 +629,7 @@ const cartData = {
       id: 1,
       img: "img1",
       name: "Half sleeve T-shirt",
-      color: "Green",
+      color: "Maroon",
       price: "450",
       data_attr: 2,
       total: 900,
@@ -494,8 +637,8 @@ const cartData = {
     {
       id: 2,
       img: "img2",
-      name: "Black color T-shirt",
-      color: "Black",
+      name: "Light blue T-shirt",
+      color: "Light blue",
       price: "225",
       data_attr: 6,
       total: 225,
@@ -503,7 +646,7 @@ const cartData = {
     {
       id: 3,
       img: "img3",
-      name: "Printed T-shirt",
+      name: "Black Color T-shirt",
       color: "Black",
       price: "152",
       data_attr: 2,
@@ -512,7 +655,7 @@ const cartData = {
     {
       id: 4,
       img: "img4",
-      name: "Smiley Plain T-shirt",
+      name: "Hoodie (Blue)",
       color: "Blue",
       price: "145",
       data_attr: 2,
@@ -521,7 +664,7 @@ const cartData = {
     {
       id: 5,
       img: "img5",
-      name: "Full sleeve T-Shirt",
+      name: "Half sleeve T-Shirt",
       color: "Light orange",
       price: "138",
       data_attr: 8,
@@ -530,7 +673,7 @@ const cartData = {
     {
       id: 6,
       img: "img6",
-      name: "Sky blue color T-shirt",
+      name: "Green color T-shirt",
       color: "Green",
       price: "152",
       data_attr: 2,
@@ -678,7 +821,6 @@ const customerData = [
     joiningDate: "2019-10-04",
   },
 ]
-
 const shops = [
   {
     id: 1,
@@ -753,6 +895,54 @@ const shops = [
     profileLink: "#",
   },
 ]
+let productComments = [
+  {
+    commentId: 1,
+    user: {
+      name: "Brian",
+      profile: "avatar1",
+    },
+    comment:
+      "If several languages coalesce, the grammar of the resulting language.",
+    time: "5 hrs ago",
+    hasLiked: false,
+  },
+  {
+    commentId: 2,
+    user: {
+      name: "Denver",
+      profile: "avatar2",
+    },
+    comment:
+      "To an English person, it will seem like simplified English, as a skeptical Cambridge",
+    time: "07 Oct, 2019",
+    hasLiked: false,
+    replies: [
+      {
+        commentId: 2,
+        replyId: 1,
+        user: {
+          name: "Henry",
+          profile: "avatar1",
+        },
+        comment:
+          "Their separate existence is a myth. For science, music, sport, etc.",
+        time: "08 Oct, 2019",
+        hasLiked: false,
+      },
+    ],
+  },
+  {
+    commentId: 3,
+    user: {
+      name: "Neal",
+      profile: "avatar3",
+    },
+    comment: "Everyone realizes why a new common language would be desirable.",
+    time: "05 Oct, 2019",
+    hasLiked: false,
+  },
+]
 
 export {
   productsData,
@@ -763,4 +953,5 @@ export {
   shops,
   customerData,
   cartData,
+  productComments,
 }

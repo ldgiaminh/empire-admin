@@ -1,7 +1,7 @@
 import {
     API_SUCCESS,
     API_FAIL,
-    GET_CHARTS_DATA,
+    GET_CHARTS_DATA
 } from "./actionTypes";
 
 export const apiSuccess = (actionType, data) => ({
@@ -19,4 +19,3 @@ export const getChartsData = (periodType) => ({
     type: GET_CHARTS_DATA,
     payload: periodType
 });
-

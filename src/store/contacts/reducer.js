@@ -32,6 +32,7 @@ const contacts = (state = INIT_STATE, action) => {
       }
 
     case ADD_USER_SUCCESS:
+
       return {
         ...state,
         users: [...state.users, action.payload],

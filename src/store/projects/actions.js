@@ -3,8 +3,6 @@ import {
   GET_PROJECTS_FAIL,
   GET_PROJECTS_SUCCESS,
   GET_PROJECT_DETAIL,
-  GET_PROJECT_DETAIL_FAIL,
-  GET_PROJECT_DETAIL_SUCCESS,
   ADD_NEW_PROJECT,
   ADD_PROJECT_SUCCESS,
   ADD_PROJECT_FAIL,
@@ -14,6 +12,8 @@ import {
   DELETE_PROJECT,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_FAIL,
+  GET_PROJECT_DETAIL_FAIL,
+  GET_PROJECT_DETAIL_SUCCESS,
 } from "./actionTypes"
 
 export const getProjects = () => ({
@@ -23,26 +23,6 @@ export const getProjects = () => ({
 export const getProjectsSuccess = projects => ({
   type: GET_PROJECTS_SUCCESS,
   payload: projects,
-})
-
-export const getProjectsFail = error => ({
-  type: GET_PROJECTS_FAIL,
-  payload: error,
-})
-
-export const getProjectDetail = projectId => ({
-  type: GET_PROJECT_DETAIL,
-  projectId,
-})
-
-export const getProjectDetailSuccess = projectDetails => ({
-  type: GET_PROJECT_DETAIL_SUCCESS,
-  payload: projectDetails,
-})
-
-export const getProjectDetailFail = error => ({
-  type: GET_PROJECT_DETAIL_FAIL,
-  payload: error,
 })
 
 export const addNewProject = project => ({
@@ -87,5 +67,25 @@ export const deleteProjectSuccess = project => ({
 
 export const deleteProjectFail = error => ({
   type: DELETE_PROJECT_FAIL,
+  payload: error,
+})
+
+export const getProjectsFail = error => ({
+  type: GET_PROJECTS_FAIL,
+  payload: error,
+})
+
+export const getProjectDetail = projectId => ({
+  type: GET_PROJECT_DETAIL,
+  projectId,
+})
+
+export const getProjectDetailSuccess = projectDetails => ({
+  type: GET_PROJECT_DETAIL_SUCCESS,
+  payload: projectDetails,
+})
+
+export const getProjectDetailFail = error => ({
+  type: GET_PROJECT_DETAIL_FAIL,
   payload: error,
 })

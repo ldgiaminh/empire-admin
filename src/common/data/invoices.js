@@ -18,17 +18,17 @@ const invoiceList = [
       items: [
         {
           id: 1,
-          item: "Skote - Bootstrap 5 Admin Dashboard",
+          item: "Skote - Bootstrap 4 Admin Dashboard",
           price: "$499.00",
         },
         {
           id: 2,
-          item: "Skote - Landing Template",
+          item: "Skote - Bootstrap 4 Landing Template",
           price: "$399.00",
         },
         {
           id: 3,
-          item: "Veltrix - Admin Dashboard Template	",
+          item: "Veltrix - Bootstrap 4 Admin Template",
           price: "$499.00",
         },
       ],
@@ -56,17 +56,17 @@ const invoiceList = [
       items: [
         {
           id: 1,
-          item: "Skote - Bootstrap 5 Admin Dashboard",
+          item: "Skote - Bootstrap 4 Admin Dashboard",
           price: "$499.00",
         },
         {
           id: 2,
-          item: "Skote - Landing Template	",
+          item: "Skote - Bootstrap 4 Landing Template",
           price: "$399.00",
         },
         {
           id: 3,
-          item: "Veltrix - Bootstrap 5 Admin Template",
+          item: "Veltrix - Bootstrap 4 Admin Template",
           price: "$499.00",
         },
       ],
@@ -94,17 +94,17 @@ const invoiceList = [
       items: [
         {
           id: 1,
-          item: "Skote - Bootstrap 5 Admin Dashboard",
+          item: "Skote - Bootstrap 4 Admin Dashboard",
           price: "$499.00",
         },
         {
           id: 2,
-          item: "Skote - Bootstrap 5 Landing Template",
+          item: "Skote - Bootstrap 4 Landing Template",
           price: "$399.00",
         },
         {
           id: 3,
-          item: "Veltrix - Bootstrap 5 Admin Template",
+          item: "Veltrix - Bootstrap 4 Admin Template",
           price: "$499.00",
         },
       ],
@@ -132,17 +132,17 @@ const invoiceList = [
       items: [
         {
           id: 1,
-          item: "Skote - Bootstrap 5 Admin Dashboard",
+          item: "Skote - Bootstrap 4 Admin Dashboard",
           price: "$499.00",
         },
         {
           id: 2,
-          item: "Skote - Bootstrap 5 Landing Template",
+          item: "Skote - Bootstrap 4 Landing Template",
           price: "$399.00",
         },
         {
           id: 3,
-          item: "Veltrix - Bootstrap 5 Admin Template",
+          item: "Veltrix - Bootstrap 4 Admin Template",
           price: "$499.00",
         },
       ],
@@ -170,17 +170,17 @@ const invoiceList = [
       items: [
         {
           id: 1,
-          item: "Skote - Bootstrap 5 Admin Dashboard",
+          item: "Skote - Bootstrap 4 Admin Dashboard",
           price: "$499.00",
         },
         {
           id: 2,
-          item: "Skote - Bootstrap 5 Landing Template",
+          item: "Skote - Bootstrap 4 Landing Template",
           price: "$399.00",
         },
         {
           id: 3,
-          item: "Veltrix - Bootstrap 5 Admin Template",
+          item: "Veltrix - Bootstrap 4 Admin Template",
           price: "$499.00",
         },
       ],
@@ -208,17 +208,17 @@ const invoiceList = [
       items: [
         {
           id: 1,
-          item: "Skote - Bootstrap 5 Admin Dashboard",
+          item: "Skote - Bootstrap 4 Admin Dashboard",
           price: "$499.00",
         },
         {
           id: 2,
-          item: "Skote - Bootstrap 5 Landing Template",
+          item: "Skote - Bootstrap 4 Landing Template",
           price: "$399.00",
         },
         {
           id: 3,
-          item: "Veltrix - Bootstrap 5 Admin Template",
+          item: "Veltrix - Bootstrap 4 Admin Template",
           price: "$499.00",
         },
       ],
@@ -246,17 +246,17 @@ const invoiceList = [
       items: [
         {
           id: 1,
-          item: "Skote - Bootstrap 5 Admin Dashboard",
+          item: "Skote - Bootstrap 4 Admin Dashboard",
           price: "$499.00",
         },
         {
           id: 2,
-          item: "Skote - Bootstrap 5 Landing Template",
+          item: "Skote - Bootstrap 4 Landing Template",
           price: "$399.00",
         },
         {
           id: 3,
-          item: "Veltrix - Bootstrap 5 Admin Template",
+          item: "Veltrix - Bootstrap 4 Admin Template",
           price: "$499.00",
         },
       ],
@@ -284,17 +284,17 @@ const invoiceList = [
       items: [
         {
           id: 1,
-          item: "Skote - Bootstrap 5 Admin Dashboard",
+          item: "Skote - Bootstrap 4 Admin Dashboard",
           price: "$499.00",
         },
         {
           id: 2,
-          item: "Skote - Bootstrap 5 Landing Template",
+          item: "Skote - Bootstrap 4 Landing Template",
           price: "$399.00",
         },
         {
           id: 3,
-          item: "Veltrix - Bootstrap 5 Admin Template",
+          item: "Veltrix - Bootstrap 4 Admin Template",
           price: "$499.00",
         },
       ],
@@ -322,17 +322,17 @@ const invoiceList = [
       items: [
         {
           id: 1,
-          item: "Skote - Bootstrap 5 Admin Dashboard",
+          item: "Skote - Bootstrap 4 Admin Dashboard",
           price: "$499.00",
         },
         {
           id: 2,
-          item: "Skote - Bootstrap 5 Landing Template",
+          item: "Skote - Bootstrap 4 Landing Template",
           price: "$399.00",
         },
         {
           id: 3,
-          item: "Veltrix - Bootstrap 5 Admin Template",
+          item: "Veltrix - Bootstrap 4 Admin Template",
           price: "$499.00",
         },
       ],

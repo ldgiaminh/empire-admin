@@ -87,6 +87,7 @@
         content: "";
         top: 3px !important;
         left: 3px;
+        right: 3px;
         width: 5px;
         height: 5px;
         border-radius: 50%;
@@ -197,18 +198,23 @@
 .css-1uccc91-singleValue {
   color: $input-color !important;
 }
-
 .react-kanban-column {
   background-color: $light !important;
 }
 
-//icon tab
-.icon-tab li:first-child .nav-link {
+
+.icon-tab li:first-child .nav-link{
   border-top-left-radius: 21px;
   border-bottom-left-radius: 21px;
 }
-.icon-tab li:last-child .nav-link {
+.icon-tab li:last-child .nav-link{
   border-top-right-radius: 21px;
   border-bottom-right-radius: 21px;
 }
 
+// Form dropdown 
+.input-group{
+  .form-select{
+    background-position: right 0.75rem center !important;
+  }
+}

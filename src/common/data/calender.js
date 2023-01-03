@@ -1,7 +1,3 @@
-/*** 
-* Events data
-* 
-*/
 const events = [
   {
     id: 1,
@@ -30,9 +26,6 @@ const events = [
   },
 ]
 
-/**
- * Calendar categories data
- */
 const calenderDefaultCategories = [
   {
     id: 1,

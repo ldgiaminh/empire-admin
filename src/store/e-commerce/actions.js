@@ -20,12 +20,6 @@ import {
   GET_CUSTOMERS,
   GET_CUSTOMERS_FAIL,
   GET_CUSTOMERS_SUCCESS,
-  GET_SHOPS,
-  GET_SHOPS_FAIL,
-  GET_SHOPS_SUCCESS,
-  GET_PRODUCT_DETAIL,
-  GET_PRODUCT_DETAIL_FAIL,
-  GET_PRODUCT_DETAIL_SUCCESS,
   ADD_NEW_CUSTOMER,
   ADD_CUSTOMER_SUCCESS,
   ADD_CUSTOMER_FAIL,
@@ -35,6 +29,27 @@ import {
   DELETE_CUSTOMER,
   DELETE_CUSTOMER_SUCCESS,
   DELETE_CUSTOMER_FAIL,
+  GET_SHOPS,
+  GET_SHOPS_FAIL,
+  GET_SHOPS_SUCCESS,
+  GET_PRODUCT_DETAIL,
+  GET_PRODUCT_DETAIL_FAIL,
+  GET_PRODUCT_DETAIL_SUCCESS,
+  GET_PRODUCT_COMMENTS,
+  GET_PRODUCT_COMMENTS_SUCCESS,
+  GET_PRODUCT_COMMENTS_FAIL,
+  ON_LIKE_COMMENT,
+  ON_LIKE_COMMENT_SUCCESS,
+  ON_LIKE_COMMENT_FAIL,
+  ON_LIKE_REPLY,
+  ON_LIKE_REPLY_SUCCESS,
+  ON_LIKE_REPLY_FAIL,
+  ON_ADD_REPLY,
+  ON_ADD_REPLY_SUCCESS,
+  ON_ADD_REPLY_FAIL,
+  ON_ADD_COMMENT,
+  ON_ADD_COMMENT_SUCCESS,
+  ON_ADD_COMMENT_FAIL
 } from "./actionTypes"
 
 export const getProducts = () => ({
@@ -153,20 +168,6 @@ export const getCustomersFail = error => ({
   payload: error,
 })
 
-export const getShops = () => ({
-  type: GET_SHOPS,
-})
-
-export const getShopsSuccess = shops => ({
-  type: GET_SHOPS_SUCCESS,
-  payload: shops,
-})
-
-export const getShopsFail = error => ({
-  type: GET_SHOPS_FAIL,
-  payload: error,
-})
-
 export const addNewCustomer = customer => ({
   type: ADD_NEW_CUSTOMER,
   payload: customer,
@@ -209,5 +210,93 @@ export const deleteCustomerSuccess = customer => ({
 
 export const deleteCustomerFail = error => ({
   type: DELETE_CUSTOMER_FAIL,
+  payload: error,
+})
+
+export const getShops = () => ({
+  type: GET_SHOPS,
+})
+
+export const getShopsSuccess = shops => ({
+  type: GET_SHOPS_SUCCESS,
+  payload: shops,
+})
+
+export const getShopsFail = error => ({
+  type: GET_SHOPS_FAIL,
+  payload: error,
+})
+
+export const getProductComments = () => ({
+  type: GET_PRODUCT_COMMENTS,
+})
+
+export const getProductCommentsSuccess = comments => ({
+  type: GET_PRODUCT_COMMENTS_SUCCESS,
+  payload: comments,
+})
+
+export const getProductCommentsFail = error => ({
+  type: GET_PRODUCT_COMMENTS_FAIL,
+  payload: error,
+})
+
+export const onLikeComment = (commentId, productId) => ({
+  type: ON_LIKE_COMMENT,
+  payload: { commentId, productId },
+})
+
+export const onLikeCommentSuccess = comments => ({
+  type: ON_LIKE_COMMENT_SUCCESS,
+  payload: comments,
+})
+
+export const onLikeCommentFail = error => ({
+  type: ON_LIKE_COMMENT_FAIL,
+  payload: error,
+})
+
+export const onLikeReply = (commentId, productId, replyId) => ({
+  type: ON_LIKE_REPLY,
+  payload: { commentId, productId, replyId },
+})
+
+export const onLikeReplySuccess = comments => ({
+  type: ON_LIKE_REPLY_SUCCESS,
+  payload: comments,
+})
+
+export const onLikeReplyFail = error => ({
+  type: ON_LIKE_REPLY_FAIL,
+  payload: error,
+})
+
+export const onAddReply = (commentId, productId, replyText) => ({
+  type: ON_ADD_REPLY,
+  payload: { commentId, productId, replyText },
+})
+
+export const onAddReplySuccess = comments => ({
+  type: ON_ADD_REPLY_SUCCESS,
+  payload: comments,
+})
+
+export const onAddReplyFail = error => ({
+  type: ON_ADD_REPLY_FAIL,
+  payload: error,
+})
+
+export const onAddComment = (productId, commentText) => ({
+  type: ON_ADD_COMMENT,
+  payload: { productId, commentText },
+})
+
+export const onAddCommentSuccess = comments => ({
+  type: ON_ADD_COMMENT_SUCCESS,
+  payload: comments,
+})
+
+export const onAddCommentFail = error => ({
+  type: ON_ADD_COMMENT_FAIL,
   payload: error,
 })

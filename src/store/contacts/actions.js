@@ -25,6 +25,21 @@ export const getUsersSuccess = users => ({
   payload: users,
 })
 
+export const addNewUser = user => ({
+  type: ADD_NEW_USER,
+  payload: user,
+})
+
+export const addUserSuccess = user => ({
+  type: ADD_USER_SUCCESS,
+  payload: user,
+})
+
+export const addUserFail = error => ({
+  type: ADD_USER_FAIL,
+  payload: error,
+})
+
 export const getUsersFail = error => ({
   type: GET_USERS_FAIL,
   payload: error,
@@ -41,21 +56,6 @@ export const getUserProfileSuccess = userProfile => ({
 
 export const getUserProfileFail = error => ({
   type: GET_USER_PROFILE_FAIL,
-  payload: error,
-})
-
-export const addNewUser = user => ({
-  type: ADD_NEW_USER,
-  payload: user,
-})
-
-export const addUserSuccess = user => ({
-  type: ADD_USER_SUCCESS,
-  payload: user,
-})
-
-export const addUserFail = error => ({
-  type: ADD_USER_FAIL,
   payload: error,
 })
 

@@ -30,19 +30,6 @@ const projects = (state = INIT_STATE, action) => {
         ...state,
         error: action.payload,
       }
-
-    case GET_PROJECT_DETAIL_SUCCESS:
-      return {
-        ...state,
-        projectDetail: action.payload,
-      }
-
-    case GET_PROJECT_DETAIL_FAIL:
-      return {
-        ...state,
-        error: action.payload,
-      }
-
     case ADD_PROJECT_SUCCESS:
       return {
         ...state,
@@ -53,6 +40,12 @@ const projects = (state = INIT_STATE, action) => {
       return {
         ...state,
         error: action.payload,
+      }
+
+    case GET_PROJECT_DETAIL_SUCCESS:
+      return {
+        ...state,
+        projectDetail: action.payload,
       }
 
     case UPDATE_PROJECT_SUCCESS:
@@ -80,6 +73,13 @@ const projects = (state = INIT_STATE, action) => {
       }
 
     case DELETE_PROJECT_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
+
+    case GET_PROJECT_DETAIL_FAIL:
       return {
         ...state,
         error: action.payload,

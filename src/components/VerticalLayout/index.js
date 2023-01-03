@@ -1,15 +1,15 @@
-import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+
 import { withRouter } from "react-router-dom";
 import {
   changeLayout,
   changeSidebarTheme,
   changeSidebarThemeImage,
   changeSidebarType,
-  toggleRightSidebar,
   changeTopbarTheme,
   changeLayoutWidth,
+  showRightSidebarAction
 } from "../../store/actions";
 
 // Layout Related Components
@@ -18,118 +18,130 @@ import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import RightSidebar from "../CommonForBoth/RightSidebar";
 
-class Layout extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent),
-      width: 0,
-      height: 0,
-    };
-    this.toggleMenuCallback = this.toggleMenuCallback.bind(this);
-    this.hideRightbar = this.hideRightbar.bind(this);
-  }
+//redux
+import { useSelector, useDispatch } from "react-redux";
 
-  capitalizeFirstLetter = string => {
-    return string.charAt(1).toUpperCase() + string.slice(2);
-  };
+const Layout = props => {
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    document.body.addEventListener("click", this.hideRightbar, true);
+  const {
+    isPreloader,
+    leftSideBarThemeImage,
+    layoutWidth,
+    leftSideBarType,
+    topbarTheme,
+    showRightSidebar,
+    leftSideBarTheme,
+  } = useSelector(state => ({
+    isPreloader: state.Layout.isPreloader,
+    leftSideBarThemeImage: state.Layout.leftSideBarThemeImage,
+    leftSideBarType: state.Layout.leftSideBarType,
+    layoutWidth: state.Layout.layoutWidth,
+    topbarTheme: state.Layout.topbarTheme,
+    showRightSidebar: state.Layout.showRightSidebar,
+    leftSideBarTheme: state.Layout.leftSideBarTheme,
+  }));
 
-    if (this.props.isPreloader === true) {
-      document.getElementById("preloader").style.display = "block";
-      document.getElementById("status").style.display = "block";
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-      setTimeout(function () {
-        document.getElementById("preloader").style.display = "none";
-        document.getElementById("status").style.display = "none";
-      }, 2500);
-    } else {
-      document.getElementById("preloader").style.display = "none";
-      document.getElementById("status").style.display = "none";
-    }
-
-    // Scroll Top to 0
-    window.scrollTo(0, 0);
-    // let currentage = this.capitalizeFirstLetter(this.props.location.pathname)
-
-    // document.title =
-    //   currentage + " | Skote - React Admin & Dashboard Template"
-    if (this.props.leftSideBarTheme) {
-      this.props.changeSidebarTheme(this.props.leftSideBarTheme);
-    }
-
-    if (this.props.leftSideBarThemeImage) {
-      this.props.changeSidebarThemeImage(this.props.leftSideBarThemeImage);
-    }
-
-    if (this.props.layoutWidth) {
-      this.props.changeLayoutWidth(this.props.layoutWidth);
-    }
-
-    if (this.props.leftSideBarType) {
-      this.props.changeSidebarType(this.props.leftSideBarType);
-    }
-    if (this.props.topbarTheme) {
-      this.props.changeTopbarTheme(this.props.topbarTheme);
-    }
-  }
-
-  toggleMenuCallback = () => {
-    var body = document.body;
-    if (window.screen.width <= 998) {
-      body.classList.toggle("sidebar-enable");
-    } else {
-      body.classList.toggle("vertical-collpsed");
-      body.classList.toggle("sidebar-enable");
+  const toggleMenuCallback = () => {
+    if (leftSideBarType === "default") {
+      dispatch(changeSidebarType("condensed", isMobile));
+    } else if (leftSideBarType === "condensed") {
+      dispatch(changeSidebarType("default", isMobile));
     }
   };
 
-  // //hides right sidebar on body click
-  hideRightbar = event => {
+  //hides right sidebar on body click
+  const hideRightbar = (event) => {
     var rightbar = document.getElementById("right-bar");
     //if clicked in inside right bar, then do nothing
     if (rightbar && rightbar.contains(event.target)) {
       return;
     } else {
-      if (document.body.classList.contains("right-bar-enabled")) {
-        this.props.toggleRightSidebar(false);
-      }
+      //if clicked in outside of rightbar then fire action for hide rightbar
+      dispatch(showRightSidebarAction(false));
     }
   };
 
-  render() {
-    return (
-      <React.Fragment>
-        <div id="preloader">
-          <div id="status">
-            <div className="spinner-chase">
-              <div className="chase-dot"></div>
-              <div className="chase-dot"></div>
-              <div className="chase-dot"></div>
-              <div className="chase-dot"></div>
-              <div className="chase-dot"></div>
-              <div className="chase-dot"></div>
-            </div>
+  /*
+  layout  settings
+  */
+
+  useEffect(() => {
+    //init body click event fot toggle rightbar
+    document.body.addEventListener("click", hideRightbar, true);
+
+     
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    dispatch(changeLayout("vertical"));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (leftSideBarTheme) {
+      dispatch(changeSidebarTheme(leftSideBarTheme));
+    }
+  }, [leftSideBarTheme, dispatch]);
+
+  useEffect(() => {
+    if (leftSideBarThemeImage) {
+      dispatch(changeSidebarThemeImage(leftSideBarThemeImage));
+    }
+  }, [leftSideBarThemeImage, dispatch]);
+
+  useEffect(() => {
+    if (layoutWidth) {
+      dispatch(changeLayoutWidth(layoutWidth));
+    }
+  }, [layoutWidth, dispatch]);
+
+  useEffect(() => {
+    if (leftSideBarType) {
+      dispatch(changeSidebarType(leftSideBarType));
+    }
+  }, [leftSideBarType, dispatch]);
+
+  useEffect(() => {
+    if (topbarTheme) {
+      dispatch(changeTopbarTheme(topbarTheme));
+    }
+  }, [topbarTheme, dispatch]);
+
+  return (
+    <React.Fragment>
+      {/* <div id="preloader">
+        <div id="status">
+          <div className="spinner-chase">
+            <div className="chase-dot" />
+            <div className="chase-dot" />
+            <div className="chase-dot" />
+            <div className="chase-dot" />
+            <div className="chase-dot" />
+            <div className="chase-dot" />
           </div>
         </div>
+      </div> */}
 
-        <div id="layout-wrapper">
-          <Header toggleMenuCallback={this.toggleMenuCallback} />
-          <Sidebar
-            theme={this.props.leftSideBarTheme}
-            type={this.props.leftSideBarType}
-            isMobile={this.state.isMobile}
-          />
-          <div className="main-content">{this.props.children}</div>
-          <Footer />
-        </div>
-        {this.props.showRightSidebar ? <RightSidebar /> : null}
-      </React.Fragment>
-    );
-  }
-}
+      <div id="layout-wrapper">
+        <Header toggleMenuCallback={toggleMenuCallback} />
+        <Sidebar
+          theme={leftSideBarTheme}
+          type={leftSideBarType}
+          isMobile={isMobile}
+        />
+        <div className="main-content">{props.children}</div>
+        <Footer />
+      </div>
+      {showRightSidebar ? <RightSidebar /> : null}
+    </React.Fragment>
+  );
+};
 
 Layout.propTypes = {
   changeLayoutWidth: PropTypes.func,
@@ -137,29 +149,15 @@ Layout.propTypes = {
   changeSidebarThemeImage: PropTypes.func,
   changeSidebarType: PropTypes.func,
   changeTopbarTheme: PropTypes.func,
-  children: PropTypes.any,
-  isPreloader: PropTypes.bool,
+  children: PropTypes.object,
+  isPreloader: PropTypes.any,
   layoutWidth: PropTypes.any,
   leftSideBarTheme: PropTypes.any,
   leftSideBarThemeImage: PropTypes.any,
   leftSideBarType: PropTypes.any,
   location: PropTypes.object,
   showRightSidebar: PropTypes.any,
-  toggleRightSidebar: PropTypes.any,
   topbarTheme: PropTypes.any,
 };
 
-const mapStateToProps = state => {
-  return {
-    ...state.Layout,
-  };
-};
-export default connect(mapStateToProps, {
-  changeLayout,
-  changeSidebarTheme,
-  changeSidebarThemeImage,
-  changeSidebarType,
-  toggleRightSidebar,
-  changeTopbarTheme,
-  changeLayoutWidth,
-})(withRouter(Layout));
+export default withRouter(Layout);

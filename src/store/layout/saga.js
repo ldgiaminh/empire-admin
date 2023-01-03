@@ -1,4 +1,5 @@
-import { call, takeEvery, put } from "redux-saga/effects"
+// @flow
+import { all, call, fork, takeEvery, put } from "redux-saga/effects"
 
 import {
   CHANGE_LAYOUT,
@@ -7,9 +8,7 @@ import {
   CHANGE_SIDEBAR_THEME_IMAGE,
   CHANGE_SIDEBAR_TYPE,
   CHANGE_TOPBAR_THEME,
-  TOGGLE_RIGHT_SIDEBAR,
   SHOW_RIGHT_SIDEBAR,
-  HIDE_RIGHT_SIDEBAR,
 } from "./actionTypes"
 
 import {
@@ -60,7 +59,7 @@ function* changeLayout({ payload: layout }) {
       yield put(changeTopbarThemeAction("light"))
     }
     yield call(changeBodyAttribute, "data-layout", layout)
-  } catch (error) { }
+  } catch (error) {}
 }
 
 /**
@@ -81,7 +80,7 @@ function* changeLayoutWidth({ payload: width }) {
       yield call(changeBodyAttribute, "data-layout-size", width)
       yield call(changeBodyAttribute, "data-layout-scrollable", false)
     }
-  } catch (error) { }
+  } catch (error) {}
 }
 
 /**
@@ -91,17 +90,17 @@ function* changeLayoutWidth({ payload: width }) {
 function* changeLeftSidebarTheme({ payload: theme }) {
   try {
     yield call(changeBodyAttribute, "data-sidebar", theme)
-  } catch (error) { }
+  } catch (error) {}
 }
 
 /**
  * Changes the left sidebar theme Image
  * @param {*} param0
  */
-function* changeLeftSidebarThemeImage({ payload: theme }) {
+ function* changeLeftSidebarThemeImage({ payload: theme }) {
   try {
     yield call(changeBodyAttribute, "data-sidebar-image", theme)
-  } catch (error) { }
+  } catch (error) {}
 }
 
 /**
@@ -111,7 +110,7 @@ function* changeLeftSidebarThemeImage({ payload: theme }) {
 function* changeTopbarTheme({ payload: theme }) {
   try {
     yield call(changeBodyAttribute, "data-topbar", theme)
-  } catch (error) { }
+  } catch (error) {}
 }
 
 /**
@@ -132,9 +131,8 @@ function* changeLeftSidebarType({ payload: { sidebarType, isMobile } }) {
         yield call(manageBodyClass, "vertical-collpsed", "add")
         break
       case "condensed":
-        // alert('condensed');
         yield call(manageBodyClass, "sidebar-enable", "add")
-        if (window.screen.width >= 998) {
+        if (window.screen.width >= 992) {
           yield call(manageBodyClass, "vertical-collpsed", "remove")
           yield call(manageBodyClass, "sidebar-enable", "remove")
           yield call(manageBodyClass, "vertical-collpsed", "add")
@@ -143,7 +141,6 @@ function* changeLeftSidebarType({ payload: { sidebarType, isMobile } }) {
           yield call(manageBodyClass, "sidebar-enable", "add")
           yield call(manageBodyClass, "vertical-collpsed", "add")
         }
-        // if (!isMobile)
         break
       default:
         yield call(changeBodyAttribute, "data-sidebar-size", "")
@@ -152,16 +149,7 @@ function* changeLeftSidebarType({ payload: { sidebarType, isMobile } }) {
           yield call(manageBodyClass, "vertical-collpsed", "remove")
         break
     }
-  } catch (error) { }
-}
-
-/**
- * Toggles the rightsidebar
- */
-function* toggleRightSidebar() {
-  try {
-    yield call(manageBodyClass, "right-bar-enabled")
-  } catch (error) { }
+  } catch (error) {}
 }
 
 /**
@@ -170,28 +158,50 @@ function* toggleRightSidebar() {
 function* showRightSidebar() {
   try {
     yield call(manageBodyClass, "right-bar-enabled", "add")
-  } catch (error) { }
+  } catch (error) {}
 }
 
 /**
- * Hides the rightsidebar
+ * Watchers
  */
-function* hideRightSidebar() {
-  try {
-    yield call(manageBodyClass, "right-bar-enabled", "remove")
-  } catch (error) { }
+export function* watchChangeLayoutType() {
+  yield takeEvery(CHANGE_LAYOUT, changeLayout)
+}
+
+export function* watchChangeLayoutWidth() {
+  yield takeEvery(CHANGE_LAYOUT_WIDTH, changeLayoutWidth)
+}
+
+export function* watchChangeLeftSidebarTheme() {
+  yield takeEvery(CHANGE_SIDEBAR_THEME, changeLeftSidebarTheme)
+}
+
+export function* watchChangeLeftSidebarThemeImage() {
+  yield takeEvery(CHANGE_SIDEBAR_THEME_IMAGE, changeLeftSidebarThemeImage)
+}
+
+export function* watchChangeLeftSidebarType() {
+  yield takeEvery(CHANGE_SIDEBAR_TYPE, changeLeftSidebarType)
+}
+
+export function* watchChangeTopbarTheme() {
+  yield takeEvery(CHANGE_TOPBAR_THEME, changeTopbarTheme)
+}
+
+export function* watchShowRightSidebar() {
+  yield takeEvery(SHOW_RIGHT_SIDEBAR, showRightSidebar)
 }
 
 function* LayoutSaga() {
-  yield takeEvery(CHANGE_LAYOUT, changeLayout)
-  yield takeEvery(CHANGE_LAYOUT_WIDTH, changeLayoutWidth)
-  yield takeEvery(CHANGE_SIDEBAR_THEME, changeLeftSidebarTheme)
-  yield takeEvery(CHANGE_SIDEBAR_THEME_IMAGE, changeLeftSidebarThemeImage)
-  yield takeEvery(CHANGE_SIDEBAR_TYPE, changeLeftSidebarType)
-  yield takeEvery(CHANGE_TOPBAR_THEME, changeTopbarTheme)
-  yield takeEvery(TOGGLE_RIGHT_SIDEBAR, toggleRightSidebar)
-  yield takeEvery(SHOW_RIGHT_SIDEBAR, showRightSidebar)
-  yield takeEvery(HIDE_RIGHT_SIDEBAR, hideRightSidebar)
+  yield all([
+    fork(watchChangeLayoutType),
+    fork(watchChangeLayoutWidth),
+    fork(watchChangeLeftSidebarTheme),
+    fork(watchChangeLeftSidebarThemeImage),
+    fork(watchChangeLeftSidebarType),
+    fork(watchShowRightSidebar),
+    fork(watchChangeTopbarTheme),
+  ])
 }
 
 export default LayoutSaga
