@@ -20,7 +20,7 @@ import {
   productsData,
   recentProducts,
   shops,
-  productComments
+  productComments,
 } from "./ecommerce"
 import { chats, contacts, groups, messages } from "./chat"
 import { calenderDefaultCategories, events } from "./calender"
@@ -79,5 +79,5 @@ export {
   novEarningData,
   octEarningData,
   chatData,
-  productComments
+  productComments,
 }

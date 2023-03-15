@@ -10,7 +10,7 @@ import {
   usePagination,
 } from "react-table"
 import { Table, Row, Col, Button, Input } from "reactstrap"
-import { Filter, DefaultColumnFilter } from "./filters"
+import { Filter, DefaultColumnFilter, SelectColumnFilter } from "./filters"
 
 // Define a default UI for filtering
 function GlobalFilter({
@@ -58,10 +58,12 @@ const TableContainer = ({
   isAddOptions,
   isAddUserList,
   isAddBookingOptions,
+  isCheckin,
   handleBookingClick,
   handleOrderClicks,
   handleUserClick,
   handleCustomerClick,
+  handleCheckInClick,
   isAddCustList,
   customPageSize,
   className,
@@ -130,7 +132,7 @@ const TableContainer = ({
           >
             {[10, 20, 30, 40, 50].map(pageSize => (
               <option key={pageSize} value={pageSize}>
-                Show {pageSize}
+                Hiển thị {pageSize}
               </option>
             ))}
           </select>
@@ -197,6 +199,35 @@ const TableContainer = ({
                 onClick={handleBookingClick}
               >
                 <i className="mdi mdi-plus me-1" />
+                Thêm đặt lịch
+              </Button>
+            </div>
+          </Col>
+        )}
+        {isCheckin && (
+          <Col sm="7">
+            <div className="text-sm-end">
+              <Button
+                type="button"
+                color="success"
+                onClick={handleCheckInClick}
+              >
+                <i className="mdi mdi-qrcode-scan me-1" />
+                Quét mã Check-in
+              </Button>
+            </div>
+          </Col>
+        )}
+        {isAddBookingOptions && (
+          <Col sm="7">
+            <div className="text-sm-end">
+              <Button
+                type="button"
+                color="primary"
+                className="btn mb-2 me-2"
+                onClick={handleBookingClick}
+              >
+                <i className="mdi mdi-plus-circle-outline me-1" />
                 Thêm đặt lịch
               </Button>
             </div>

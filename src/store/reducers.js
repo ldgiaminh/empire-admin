@@ -9,6 +9,21 @@ import Account from "./auth/register/reducer"
 import ForgetPassword from "./auth/forgetpwd/reducer"
 import Profile from "./auth/profile/reducer"
 
+//booking
+import bookings from "./bookings/reducer"
+
+//order services
+import orderServices from "./order-services/reducer"
+
+//group services
+import groupServices from "./group-services/reducer"
+
+//item
+import items from "./items/reducer"
+
+//symptom
+import symptomsLists from "./symptoms/reducer"
+
 //E-commerce
 import ecommerce from "./e-commerce/reducer"
 
@@ -30,17 +45,17 @@ import projects from "./projects/reducer"
 //tasks
 import tasks from "./tasks/reducer"
 
-//contacts
-import contacts from "./contacts/reducer"
+//users
+import userLists from "./users/reducer"
 
 //mails
-import mails from "./mails/reducer";
+import mails from "./mails/reducer"
 
-//Dashboard 
-import Dashboard from "./dashboard/reducer";
+//Dashboard
+import Dashboard from "./dashboard/reducer"
 
 //Dasboard saas
-import DashboardSaas from "./dashboard-saas/reducer";
+import DashboardSaas from "./dashboard-saas/reducer"
 
 const rootReducer = combineReducers({
   // public
@@ -57,9 +72,14 @@ const rootReducer = combineReducers({
   invoices,
   projects,
   tasks,
-  contacts,
+  userLists,
   Dashboard,
-  DashboardSaas
+  DashboardSaas,
+  bookings,
+  symptomsLists,
+  orderServices,
+  groupServices,
+  items,
 })
 
 export default rootReducer

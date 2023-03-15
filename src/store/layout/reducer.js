@@ -20,7 +20,7 @@ import {
   leftBarThemeImageTypes,
   leftSidebarTypes,
   leftSideBarThemeTypes,
-} from "../../constants/layout";
+} from "../../constants/layout"
 
 const INIT_STATE = {
   layoutType: layoutTypes.VERTICAL,

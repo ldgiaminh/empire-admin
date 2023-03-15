@@ -14,6 +14,9 @@ import {
   DELETE_USER,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
+  GET_EXPERTS_FAIL,
+  GET_EXPERTS_SUCCESS,
+  GET_EXPERTS,
 } from "./actionTypes"
 
 export const getUsers = () => ({
@@ -28,6 +31,25 @@ export const getUsersSuccess = users => ({
 export const addNewUser = user => ({
   type: ADD_NEW_USER,
   payload: user,
+})
+
+/*
+================================================
+EXPERTS
+================================================
+*/
+export const getExperts = () => ({
+  type: GET_EXPERTS,
+})
+
+export const getExpertsSuccess = users => ({
+  type: GET_EXPERTS_SUCCESS,
+  payload: users,
+})
+
+export const getExpertsFail = error => ({
+  type: ADD_USER_FAIL,
+  payload: error,
 })
 
 export const addUserSuccess = user => ({

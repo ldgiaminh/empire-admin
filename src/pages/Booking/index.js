@@ -1,94 +1,230 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useState, useRef, useMemo } from "react"
+import { withRouter, Link } from "react-router-dom"
+import Loader from "components/Loader"
 import PropTypes from "prop-types"
-import classnames from "classnames"
-import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import toastr from "toastr"
+import { isEmpty } from "lodash"
+import "toastr/build/toastr.min.css"
 import TableContainer from "../../components/Common/TableContainer"
-import * as Yup from "yup"
-
-//Import Breadcrumb
-import Breadcrumbs from "../../components/Common/Breadcrumb"
-
-import { BookingCode, ModalCar, Name, Phone, Plate } from "./BookingUserListCol"
-
-//redux
-import BookingUserListModal from "./BookingUserListModal"
-
+import classnames from "classnames"
+import moment from "moment"
+import "moment/locale/vi"
+import QrScanner from "./QrScanner"
 import {
-  Container,
   Button,
   Col,
-  Row,
-  UncontrolledTooltip,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Form,
-  Input,
-  FormFeedback,
-  Label,
-  NavItem,
-  NavLink,
   Card,
   CardBody,
+  Row,
+  Container,
+  NavItem,
+  NavLink,
   TabContent,
   TabPane,
+  Nav,
 } from "reactstrap"
 
-function Booking() {
+import {
+  BookingCode,
+  ModalCar,
+  Name,
+  Phone,
+  Plate,
+  Status,
+} from "./BookingUserListCol"
+
+//Import Breadcrumb
+import Breadcrumbs from "components/Common/Breadcrumb"
+
+import {
+  getBookingLists as onGetBookings,
+  checkinBooking as checkInBooking,
+  changePreloader as onLoading,
+} from "store/actions"
+
+//redux
+import { useSelector, useDispatch } from "react-redux"
+import CheckInModal from "./CheckInModal"
+
+const BookingList = props => {
   //meta title
   document.title = "Đặt Lịch | Empire Admin"
 
-  const [activeTab, setActiveTab] = useState("1")
-  const [modal, setModal] = useState(false)
-  const [modal1, setModal1] = useState(false)
-  const [isCheck, setIsCheck] = useState(false)
+  const { history } = props
+  const dispatch = useDispatch()
 
-  const [bookingUserList, setBookingUserList] = useState([])
-  const [bookingUser, setBookingUser] = useState(null)
+  /*
+  ==================================================
+  Render Day,Date in Father Tabs
+  ==================================================
+  */
+  const today = moment().locale("vi")
+  const monday = today.clone().startOf("isoWeek")
+  const sunday = today.clone().endOf("isoWeek")
 
-  const toggleViewModal = () => setModal1(!modal1)
+  const weekDays = []
+  let currentDate = monday.clone()
+  while (currentDate.isSameOrBefore(sunday, "day")) {
+    const date = currentDate.clone().format("YYYY-MM-DD") + "T00:00:00+00:00"
+    const dateFormat = currentDate.clone().format("DD/MM")
+    const dayArray = currentDate.format("dddd").split(" ")
+    dayArray[0] = dayArray[0].charAt(0).toUpperCase() + dayArray[0].slice(1)
+    dayArray[1] = dayArray[1].charAt(0).toUpperCase() + dayArray[1].slice(1)
+    const day = dayArray.join(" ")
+    weekDays.push({ day, date, dateFormat })
 
-  const toggleTab = tab => {
-    if (activeTab !== tab) {
-      setActiveTab(tab)
-    }
+    currentDate.add(1, "day")
   }
 
-  const toggle = () => {
-    if (modal) {
-      setModal(false)
-      setBookingUser(null)
-    } else {
-      setModal(true)
-    }
+  /*
+  ==================================================
+  useState
+  ==================================================
+  */
+  const [activeTab, setActiveTab] = useState(
+    weekDays.findIndex(day => day.dateFormat === today.format("DD/MM"))
+  )
+  const [subActiveTab, setSubActiveTab] = useState(0)
+
+  const [booking, setBooking] = useState([])
+  const [bookingList, setBookingList] = useState([])
+
+  const [loading, setLoading] = useState(true)
+
+  /*
+  ==================================================
+  Changes Tabs
+  ==================================================
+  */
+
+  //Father Tabs
+  const toggleTab = index => {
+    setActiveTab(index)
+    setSubActiveTab(0)
   }
 
-  const handleBookingUserDetailClick = arg => {
-    const booking = arg
-    setBookingUser({
-      id: booking.id,
-      code: booking.code,
-      date: booking.date,
-      status: booking.status,
-      fullName: booking.fullName,
-      phone: booking.orderdate,
-      email: booking.email,
-      car_modal: booking.car_modal,
-      car_license_no: booking.paymentStatus,
+  //Nested Tabs
+  const toggleSubTab = index => {
+    setSubActiveTab(index)
+  }
+
+  /*
+  ==================================================
+  Call api and useEffect
+  ==================================================
+  */
+
+  //Get State from Redux
+  const { bookings, isPreloader } = useSelector(state => ({
+    bookings: state.bookings.bookings,
+    isPreloader: state.Layout.isPreloader,
+  }))
+
+  useEffect(() => {
+    if (bookings && !bookings.length) {
+      // dispatch(onLoading(true))
+      dispatch(onGetBookings())
+    }
+  }, [dispatch, bookings])
+
+  useEffect(() => {
+    setBooking(bookings)
+  }, [bookings])
+
+  useEffect(() => {
+    if (!isEmpty(bookings)) {
+      setBooking(bookings)
+    }
+  }, [bookings])
+
+  /*
+  ==================================================
+  Filter with Status
+  ==================================================
+  */
+  const tableBookings = index => {
+    const filteredBookings = bookings.filter(booking => {
+      if (index === 0) {
+        return !booking.isArrived && booking.isActived
+      } else if (index === 1) {
+        return booking.isArrived && booking.isActived
+      } else if (index === 2) {
+        return !booking.isArrived && !booking.isActived
+      }
     })
-
-    setIsCheck(true)
-
-    toggle()
+    return filteredBookings
   }
 
-  const handleAddNewBookingClick = () => {
-    setBookingUserList("")
-    setIsCheck(false)
-    toggle()
+  const pendingBooking = tableBookings(subActiveTab)
+  const arrivedBooking = tableBookings(subActiveTab)
+  const cancelBooking = tableBookings(subActiveTab)
+
+  /*
+  ==================================================
+  Check-in 
+  ==================================================
+  */
+
+  var node = useRef()
+  const onPaginationPageChange = page => {
+    if (
+      node &&
+      node.current &&
+      node.current.props &&
+      node.current.props.pagination &&
+      node.current.props.pagination.options
+    ) {
+      node.current.props.pagination.options.onPageChange(page)
+    }
   }
 
-  const columns = useMemo(
+  //Notification
+  toastr.options = {
+    closeButton: false,
+    debug: false,
+    newestOnTop: true,
+    progressBar: false,
+    positionClass: "toast-top-right",
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "5000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut",
+  }
+
+  const [checkinModal, setCheckInModal] = useState(false)
+
+  const toggleViewModal = bookingData => {
+    setBooking(bookingData)
+    setCheckInModal(!checkinModal)
+  }
+
+  const handleCheckIn = () => {
+    if (booking.id) {
+      dispatch(checkInBooking(booking.id))
+      onPaginationPageChange(1)
+      setCheckInModal(false)
+      toastr.success("Check-in thành công", "Thành công")
+      dispatch(onGetBookings())
+      history.push(`/booking-detail/${booking.id}`)
+    }
+  }
+
+  const handleCheckInClick = () => {
+    history.push("/scanner")
+  }
+
+  /*
+  ==================================================
+  Column for each Table with Status
+  =================================================
+  */
+  const columnsNotYet = useMemo(
     () => [
       {
         Header: "Mã đặt lịch",
@@ -99,43 +235,52 @@ function Booking() {
           width: "10%",
           background: "#0000",
         },
-        disableFilters: true,
+        filterable: true,
         Cell: cellProps => {
           return <BookingCode {...cellProps} />
         },
       },
       {
         Header: "Tên khách hàng",
-        accessor: "fullname",
-        disableFilters: true,
+        accessor: "user.fullname",
+        filterable: true,
         Cell: cellProps => {
           return <Name {...cellProps} />
         },
       },
       {
         Header: "Số điện thoại",
-        accessor: "phone",
-        disableFilters: true,
+        accessor: "user.phone",
+        filterable: true,
         Cell: cellProps => {
           return <Phone {...cellProps} />
         },
       },
       {
-        Header: "Modal xe",
-        accessor: "car_modal",
-        disableFilters: true,
+        Header: "Thương hiệu",
+        accessor: "car.carBrand",
+        filterable: true,
+        Cell: cellProps => {
+          return <ModalCar {...cellProps} />
+        },
+      },
+      {
+        Header: "Dòng xe",
+        accessor: "car.carModel",
+        filterable: true,
         Cell: cellProps => {
           return <ModalCar {...cellProps} />
         },
       },
       {
         Header: "Biển số xe",
-        accessor: "car_license_no",
-        disableFilters: true,
+        accessor: "car.carLisenceNo",
+        filterable: true,
         Cell: cellProps => {
           return <Plate {...cellProps} />
         },
       },
+
       {
         Header: "Chi tiết",
         accessor: "view",
@@ -145,12 +290,9 @@ function Booking() {
             <Button
               type="button"
               color="primary"
-              className="btn-sm btn-rounded"
-              //onClick={toggleViewModal}
-              onClick={() => {
-                const bookingUserData = cellProps.row.original
-                handleBookingUserDetailClick(bookingUserData)
-              }}
+              onClick={() =>
+                history.push(`/booking-detail/${cellProps.row.original.id}`)
+              }
             >
               Xem chi tiết
             </Button>
@@ -161,13 +303,14 @@ function Booking() {
         Header: "Check-in",
         accessor: "action",
         disableFilters: true,
-        Cell: () => {
+        Cell: cellProps => {
           return (
             <Button
               type="button"
               color="success"
-              className="btn-sm btn-rounded"
-              //onClick={toggleViewModal}
+              onClick={() => {
+                toggleViewModal(cellProps.row.original)
+              }}
             >
               Check-in
             </Button>
@@ -178,424 +321,237 @@ function Booking() {
     []
   )
 
-  const data = [
-    {
-      code: "#BK001",
-      fullname: "Lê Đặng Gia Minh",
-      phone: "0867635674",
-      car_modal: "Tesla",
-      car_license_no: "59D-123.45",
-    },
-    {
-      code: "#BK002",
-      fullname: "Trần Duy Hiếu Trung",
-      phone: "0123456789",
-      car_modal: "Ford",
-      car_license_no: "63F-325.44",
-    },
-    {
-      code: "#BK003",
-      fullname: "Hoàng Trung Thông",
-      phone: "0123456789",
-      car_modal: "Honda",
-      car_license_no: "30B-153.53",
-    },
-    {
-      code: "#BK004",
-      fullname: "Nguyễn Hoàng Hồng Phúc",
-      phone: "0123456789",
-      car_modal: "Porche",
-      car_license_no: "72C-764.45",
-    },
-  ]
-
-  const dataArrived = [
-    {
-      code: "#BK001",
-      fullname: "Peter Parker",
-      phone: "0573658193",
-      car_modal: "Mercedes",
-      car_license_no: "59F-325.44",
-    },
-    {
-      code: "#BK002",
-      fullname: "Tony Stark",
-      phone: "0457465712",
-      car_modal: "BMW",
-      car_license_no: "59D-123.45",
-    },
-    {
-      code: "#BK003",
-      fullname: "Bruce Wayne",
-      phone: "0174658272",
-      car_modal: "Roll Royce",
-      car_license_no: "59D-764.45",
-    },
-    {
-      code: "#BK004",
-      fullname: "Clark Kent",
-      phone: "06587291357",
-      car_modal: "McLaren",
-      car_license_no: "59D-153.53",
-    },
-  ]
-
-  const dataCancel = [
-    {
-      code: "#BK001",
-      fullname: "Justin Bieber",
-      phone: "0698532179",
-      car_modal: "Lamborghini",
-      car_license_no: "59D-123.45",
-    },
-    {
-      code: "#BK002",
-      fullname: "Charlie Puth",
-      phone: "0985625719",
-      car_modal: "Ferrari",
-      car_license_no: "59D-325.44",
-    },
-    {
-      code: "#BK003",
-      fullname: "Post Malone",
-      phone: "0326985716",
-      car_modal: "Maserati",
-      car_license_no: "59D-153.53",
-    },
-    {
-      code: "#BK004",
-      fullname: "Kendrick Lamar",
-      phone: "0985326178",
-      car_modal: "Aston Martin",
-      car_license_no: "59D-764.45",
-    },
-  ]
+  const columnsArrivedCancel = useMemo(
+    () => [
+      {
+        Header: "Mã đặt lịch",
+        accessor: "code",
+        filterable: true,
+        Cell: cellProps => {
+          return <BookingCode {...cellProps} />
+        },
+      },
+      {
+        Header: "Tên khách hàng",
+        accessor: "user.fullname",
+        filterable: true,
+        Cell: cellProps => {
+          return <Name {...cellProps} />
+        },
+      },
+      {
+        Header: "Số điện thoại",
+        accessor: "user.phone",
+        filterable: true,
+        Cell: cellProps => {
+          return <Phone {...cellProps} />
+        },
+      },
+      {
+        Header: "Thương hiệu",
+        accessor: "car.carBrand",
+        filterable: true,
+        Cell: cellProps => {
+          return <ModalCar {...cellProps} />
+        },
+      },
+      {
+        Header: "Dòng xe",
+        accessor: "car.carModel",
+        filterable: true,
+        Cell: cellProps => {
+          return <ModalCar {...cellProps} />
+        },
+      },
+      {
+        Header: "Biển số xe",
+        accessor: "car.carLisenceNo",
+        filterable: true,
+        Cell: cellProps => {
+          return <Plate {...cellProps} />
+        },
+      },
+      {
+        Header: "Chi tiết",
+        accessor: "view",
+        disableFilters: true,
+        Cell: ({ row }) => {
+          return (
+            <Button
+              type="button"
+              color="primary"
+              onClick={() => history.push(`/booking-detail/${row.original.id}`)}
+            >
+              Xem chi tiết
+            </Button>
+          )
+        },
+      },
+    ],
+    []
+  )
 
   return (
     <React.Fragment>
-      <BookingUserListModal isOpen={modal1} toggle={toggleViewModal} />
-      <div className="page-content">
-        <div className="container-fluid">
-          <Breadcrumbs title="Đặt Lịch" breadcrumbItem="Danh sách đặt lịch" />
-          <Row>
-            <Col xs="12">
-              <Card>
-                <CardBody>
-                  <ul className="nav nav-tabs nav-tabs-custom" role="tablist">
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === "1",
-                        })}
-                        onClick={() => {
-                          toggleTab("1")
-                        }}
-                      >
-                        Xe chưa đến
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === "2",
-                        })}
-                        onClick={() => {
-                          toggleTab("2")
-                        }}
-                      >
-                        Xe đã đến
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({
-                          active: activeTab === "3",
-                        })}
-                        onClick={() => {
-                          toggleTab("3")
-                        }}
-                      >
-                        Hủy
-                      </NavLink>
-                    </NavItem>
-                  </ul>
-                  <TabContent activeTab={activeTab} className="p-3">
-                    <TabPane tabId="1" id="not-yet">
-                      <TableContainer
-                        columns={columns}
-                        data={data}
-                        isGlobalFilter={true}
-                        isAddBookingOptions={true}
-                        handleBookingClick={handleAddNewBookingClick}
-                        customPageSize={10}
-                        className="custom-header-css"
-                      />
-                    </TabPane>
-                    <TabPane tabId="2" id="arrived">
-                      <div>
-                        <TableContainer
-                          columns={columns}
-                          data={dataArrived}
-                          isGlobalFilter={true}
-                          isAddBookingOptions={true}
-                          handleBookingClick={handleAddNewBookingClick}
-                          customPageSize={10}
-                          className="custom-header-css"
-                        />
-                      </div>
-                    </TabPane>
-                    <TabPane tabId="3" id="cancel">
-                      <div>
-                        <TableContainer
-                          columns={columns}
-                          data={dataCancel}
-                          isGlobalFilter={true}
-                          isAddBookingOptions={true}
-                          handleBookingClick={handleAddNewBookingClick}
-                          customPageSize={10}
-                          className="custom-header-css"
-                        />
-                      </div>
-                    </TabPane>
-                  </TabContent>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-          <Modal isOpen={modal} toggle={toggle}>
-            <ModalHeader toggle={toggle} tag="h4">
-              {!!isCheck ? "Chi tiết đặt lịch" : "Thêm đặt lịch mới"}
-            </ModalHeader>
-            <ModalBody>
-              <Form
-                onSubmit={e => {
-                  e.preventDefault()
-                  //validation.handleSubmit()
-                  return false
-                }}
-              >
-                <Row form>
-                  <Col className="col-12">
-                    <div className="mb-3">
-                      <Label className="form-label">Mã đặt lịch</Label>
-                      <Input
-                        name="orderId"
-                        type="text"
-                        // onChange={validation.handleChange}
-                        // onBlur={validation.handleBlur}
-                        // value={validation.values.orderId || ""}
-                        // invalid={
-                        //   validation.touched.orderId &&
-                        //   validation.errors.orderId
-                        //     ? true
-                        //     : false
-                        // }
-                      />
-                      {/* {validation.touched.orderId &&
-                      validation.errors.orderId ? (
-                        <FormFeedback type="invalid">
-                          {validation.errors.orderId}
-                        </FormFeedback>
-                      ) : null} */}
-                    </div>
-                    <div className="mb-3">
-                      <Label className="form-label">Ngày đặt lịch</Label>
-                      <Input
-                        name="orderdate"
-                        type="date"
-                        // value={orderList.orderdate || ""}
-                        // onChange={validation.handleChange}
-                        // onBlur={validation.handleBlur}
-                        // value={validation.values.orderdate || ""}
-                        // invalid={
-                        //   validation.touched.orderdate &&
-                        //   validation.errors.orderdate
-                        //     ? true
-                        //     : false
-                        // }
-                      />
-                      {/* {validation.touched.orderdate &&
-                      validation.errors.orderdate ? (
-                        <FormFeedback type="invalid">
-                          {validation.errors.orderdate}
-                        </FormFeedback>
-                      ) : null} */}
-                    </div>
+      {isPreloader && <Loader />}
 
-                    <div className="mb-3">
-                      <Label className="form-label">Trạng thái</Label>
-                      <Input
-                        name="badgeclass"
-                        type="select"
-                        className="form-select"
-                        // onChange={validation.handleChange}
-                        // onBlur={validation.handleBlur}
-                        // value={validation.values.badgeclass || ""}
-                      >
-                        <option>Đã đến</option>
-                        <option>Quá hạn</option>
-                        <option>Chưa đến</option>
-                      </Input>
+      <CheckInModal
+        isOpen={checkinModal}
+        toggle={toggleViewModal}
+        data={booking}
+        handleCheckIn={handleCheckIn}
+      />
+
+      {!isPreloader && (
+        <div className="page-content">
+          <Container fluid>
+            {/* Render Breadcrumbs */}
+            <Breadcrumbs title="Đặt Lịch" breadcrumbItem="Danh sách đặt lịch" />
+            <Row>
+              <Col lg="12">
+                <Card>
+                  <CardBody>
+                    <Nav
+                      pills
+                      className="nav bg-light rounded nav-justified"
+                      role="tablist"
+                    >
+                      {weekDays.map((day, index) => (
+                        <NavItem key={index}>
+                          <NavLink
+                            style={{ cursor: "pointer" }}
+                            className={classnames({
+                              active: activeTab === index,
+                            })}
+                            onClick={() => {
+                              toggleTab(index)
+                            }}
+                          >
+                            {day.day} ({day.dateFormat})
+                          </NavLink>
+                        </NavItem>
+                      ))}
+                    </Nav>
+
+                    <div className="mt-4">
+                      {weekDays.map((day, index) => (
+                        <div key={index}>
+                          {activeTab === index && (
+                            <>
+                              <ul
+                                className="nav nav-tabs nav-tabs-custom"
+                                role="tablist"
+                              >
+                                <NavItem>
+                                  <NavLink
+                                    className={classnames({
+                                      active: subActiveTab === 0,
+                                    })}
+                                    onClick={() => {
+                                      toggleSubTab(0)
+                                    }}
+                                  >
+                                    Chưa đến
+                                  </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                  <NavLink
+                                    className={classnames({
+                                      active: subActiveTab === 1,
+                                    })}
+                                    onClick={() => {
+                                      toggleSubTab(1)
+                                    }}
+                                  >
+                                    Đã đến
+                                  </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                  <NavLink
+                                    className={classnames({
+                                      active: subActiveTab === 2,
+                                    })}
+                                    onClick={() => {
+                                      toggleSubTab(2)
+                                    }}
+                                  >
+                                    Hủy
+                                  </NavLink>
+                                </NavItem>
+                              </ul>
+                              <TabContent className="p-3 mt-4">
+                                {subActiveTab === 0 && (
+                                  <TabPane id="not-yet">
+                                    <TableContainer
+                                      columns={columnsNotYet}
+                                      data={pendingBooking.filter(booking => {
+                                        const dayBooking =
+                                          booking.date === day.date
+                                        return dayBooking
+                                      })}
+                                      isGlobalFilter={true}
+                                      isAddBookingOptions={false}
+                                      //handleUserClick={handleUserClicks}
+                                      isCheckin={true}
+                                      handleCheckInClick={handleCheckInClick}
+                                      customPageSize={10}
+                                      className="custom-header-css"
+                                    />
+                                  </TabPane>
+                                )}
+                                {subActiveTab === 1 && (
+                                  <TabPane id="not-yet">
+                                    <TableContainer
+                                      columns={columnsArrivedCancel}
+                                      data={arrivedBooking.filter(booking => {
+                                        const dayBooking =
+                                          booking.date === day.date
+                                        return dayBooking
+                                      })}
+                                      isGlobalFilter={true}
+                                      isAddBookingOptions={false}
+                                      //handleUserClick={handleUserClicks}
+                                      customPageSize={10}
+                                      className="custom-header-css"
+                                    />
+                                  </TabPane>
+                                )}
+                                {subActiveTab === 2 && (
+                                  <TabPane id="not-yet">
+                                    <TableContainer
+                                      columns={columnsArrivedCancel}
+                                      data={cancelBooking.filter(booking => {
+                                        const dayBooking =
+                                          booking.date === day.date
+                                        return dayBooking
+                                      })}
+                                      isGlobalFilter={true}
+                                      isAddBookingOptions={false}
+                                      //handleUserClick={handleUserClicks}
+                                      customPageSize={10}
+                                      className="custom-header-css"
+                                    />
+                                  </TabPane>
+                                )}
+                              </TabContent>
+                            </>
+                          )}
+                        </div>
+                      ))}
                     </div>
-                    <div className="mb-3">
-                      <Label className="form-label">Họ và Tên</Label>
-                      <Input
-                        name="billingName"
-                        type="text"
-                        validate={{
-                          required: { value: true },
-                        }}
-                        // onChange={validation.handleChange}
-                        // onBlur={validation.handleBlur}
-                        // value={validation.values.billingName || ""}
-                        // invalid={
-                        //   validation.touched.billingName &&
-                        //   validation.errors.billingName
-                        //     ? true
-                        //     : false
-                        // }
-                      />
-                      {/* {validation.touched.billingName &&
-                      validation.errors.billingName ? (
-                        <FormFeedback type="invalid">
-                          {validation.errors.billingName}
-                        </FormFeedback>
-                      ) : null} */}
-                    </div>
-                    <div className="mb-3">
-                      <Label className="form-label">Số điện thoại</Label>
-                      <Input
-                        name="total"
-                        type="text"
-                        // onChange={validation.handleChange}
-                        // onBlur={validation.handleBlur}
-                        // value={validation.values.total || ""}
-                        // invalid={
-                        //   validation.touched.total && validation.errors.total
-                        //     ? true
-                        //     : false
-                        // }
-                      />
-                      {/* {validation.touched.total && validation.errors.total ? (
-                        <FormFeedback type="invalid">
-                          {validation.errors.total}
-                        </FormFeedback>
-                      ) : null} */}
-                    </div>
-                    <div className="mb-3">
-                      <Label className="form-label">Email</Label>
-                      <Input
-                        name="total"
-                        type="text"
-                        // onChange={validation.handleChange}
-                        // onBlur={validation.handleBlur}
-                        // value={validation.values.total || ""}
-                        // invalid={
-                        //   validation.touched.total && validation.errors.total
-                        //     ? true
-                        //     : false
-                        // }
-                      />
-                      {/* {validation.touched.total && validation.errors.total ? (
-                        <FormFeedback type="invalid">
-                          {validation.errors.total}
-                        </FormFeedback>
-                      ) : null} */}
-                    </div>
-                    <div className="mb-3">
-                      <Label className="form-label">Hiệu xe</Label>
-                      <Input
-                        name="total"
-                        type="text"
-                        // onChange={validation.handleChange}
-                        // onBlur={validation.handleBlur}
-                        // value={validation.values.total || ""}
-                        // invalid={
-                        //   validation.touched.total && validation.errors.total
-                        //     ? true
-                        //     : false
-                        // }
-                      />
-                      {/* {validation.touched.total && validation.errors.total ? (
-                        <FormFeedback type="invalid">
-                          {validation.errors.total}
-                        </FormFeedback>
-                      ) : null} */}
-                    </div>
-                    <div className="mb-3">
-                      <Label className="form-label">Dòng xe</Label>
-                      <Input
-                        name="total"
-                        type="text"
-                        // onChange={validation.handleChange}
-                        // onBlur={validation.handleBlur}
-                        // value={validation.values.total || ""}
-                        // invalid={
-                        //   validation.touched.total && validation.errors.total
-                        //     ? true
-                        //     : false
-                        // }
-                      />
-                      {/* {validation.touched.total && validation.errors.total ? (
-                        <FormFeedback type="invalid">
-                          {validation.errors.total}
-                        </FormFeedback>
-                      ) : null} */}
-                    </div>
-                    <div className="mb-3">
-                      <Label className="form-label">Biển số xe</Label>
-                      <Input
-                        name="total"
-                        type="text"
-                        // onChange={validation.handleChange}
-                        // onBlur={validation.handleBlur}
-                        // value={validation.values.total || ""}
-                        // invalid={
-                        //   validation.touched.total && validation.errors.total
-                        //     ? true
-                        //     : false
-                        // }
-                      />
-                      {/* {validation.touched.total && validation.errors.total ? (
-                        <FormFeedback type="invalid">
-                          {validation.errors.total}
-                        </FormFeedback>
-                      ) : null} */}
-                    </div>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <div className="text-end">
-                      {!!isCheck ? (
-                        <button
-                          type="submit"
-                          className="btn btn-success save-user"
-                        >
-                          Check-in
-                        </button>
-                      ) : (
-                        <button
-                          type="submit"
-                          className="btn btn-success save-user"
-                        >
-                          Lưu
-                        </button>
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-              </Form>
-            </ModalBody>
-          </Modal>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
         </div>
-      </div>
+      )}
     </React.Fragment>
   )
 }
 
-Booking.propTypes = {
-  preGlobalFilteredRows: PropTypes.any,
+BookingList.propTypes = {
+  isPreloader: PropTypes.bool,
 }
 
-export default Booking
+export default withRouter(BookingList)

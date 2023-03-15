@@ -9,6 +9,8 @@ import {
   DELETE_USER_FAIL,
   GET_USER_PROFILE_SUCCESS,
   GET_USER_PROFILE_FAIL,
+  GET_EXPERTS_FAIL,
+  GET_EXPERTS_SUCCESS,
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -17,7 +19,7 @@ const INIT_STATE = {
   error: {},
 }
 
-const contacts = (state = INIT_STATE, action) => {
+const userLists = (state = INIT_STATE, action) => {
   switch (action.type) {
     case GET_USERS_SUCCESS:
       return {
@@ -31,8 +33,19 @@ const contacts = (state = INIT_STATE, action) => {
         error: action.payload,
       }
 
-    case ADD_USER_SUCCESS:
+    case GET_EXPERTS_SUCCESS:
+      return {
+        ...state,
+        users: action.payload,
+      }
 
+    case GET_EXPERTS_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
+    case ADD_USER_SUCCESS:
       return {
         ...state,
         users: [...state.users, action.payload],
@@ -50,35 +63,35 @@ const contacts = (state = INIT_STATE, action) => {
         userProfile: action.payload,
       }
 
-      case UPDATE_USER_SUCCESS:
-        return {
-          ...state,
-          users: state.users.map(user =>
-            user.id.toString() === action.payload.id.toString()
-              ? { user, ...action.payload }
-              : user
-          ),
-        }
-  
-      case UPDATE_USER_FAIL:
-        return {
-          ...state,
-          error: action.payload,
-        }
-  
-      case DELETE_USER_SUCCESS:
-        return {
-          ...state,
-          users: state.users.filter(
-            user => user.id.toString() !== action.payload.id.toString()
-          ),
-        }
-  
-      case DELETE_USER_FAIL:
-        return {
-          ...state,
-          error: action.payload,
-        }
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        users: state.users.map(user =>
+          user.id.toString() === action.payload.id.toString()
+            ? { user, ...action.payload }
+            : user
+        ),
+      }
+
+    case UPDATE_USER_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
+    case DELETE_USER_SUCCESS:
+      return {
+        ...state,
+        users: state.users.filter(
+          user => user.id.toString() !== action.payload.id.toString()
+        ),
+      }
+
+    case DELETE_USER_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
 
     case GET_USER_PROFILE_FAIL:
       return {
@@ -91,4 +104,4 @@ const contacts = (state = INIT_STATE, action) => {
   }
 }
 
-export default contacts
+export default userLists

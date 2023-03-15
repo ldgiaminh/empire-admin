@@ -33,4 +33,8 @@ const Plate = cell => {
   return cell.value ? cell.value : ""
 }
 
-export { BookingCode, Name, Phone, ModalCar, Plate }
+const Status = cell => {
+  return cell.value ? cell.value : ""
+}
+
+export { BookingCode, Name, Phone, ModalCar, Plate, Status }

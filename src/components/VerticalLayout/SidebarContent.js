@@ -92,35 +92,13 @@ const SidebarContent = props => {
       <SimpleBar className="h-100" ref={ref}>
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
-            <li className="menu-title">{props.t("Menu")} </li>
-            {/* <li>
-              <Link to="/#">
-                <i className="bx bx-home-circle"></i>
-                <span className="badge rounded-pill bg-info float-end">04</span>
-                <span>{props.t("Dashboards")}</span>
-              </Link>
-              <ul className="sub-menu">
-                <li>
-                  <Link to="/dashboard">{props.t("Default")}</Link>
-                </li>
-                <li>
-                  <Link to="/#">{props.t("Saas")}</Link>
-                </li>
-                <li>
-                  <Link to="/#">{props.t("Crypto")}</Link>
-                </li>
-                <li>
-                  <Link to="/#">{props.t("Blog")}</Link>
-                </li>
-              </ul>
-            </li> */}
+            <li className="menu-title">{props.t("Danh Mục")} </li>
             <li>
               <Link to="/dashboard">
                 <i className="bx bx-home-circle"></i>
-                <span>{props.t("Dashboard")}</span>
+                <span>{props.t("Trang chủ")}</span>
               </Link>
             </li>
-            <li className="menu-title">{props.t("Dịch Vụ")}</li>
             <li>
               <Link to="/booking">
                 <i className="bx bx-calendar"></i>
@@ -130,7 +108,50 @@ const SidebarContent = props => {
             <li>
               <Link to="/order-service">
                 <i className="bx bxs-detail"></i>
-                <span>{props.t("Dịch Vụ")}</span>
+                <span>{props.t("Theo dõi tiến trình")}</span>
+              </Link>
+            </li>
+
+            <li className="menu-title">{props.t("Thương mại")}</li>
+            <li>
+              <Link to="/booking">
+                <i className="bx bx-receipt"></i>
+                <span>{props.t("Hóa đơn")}</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/transactions">
+                <i className="bx bx-money"></i>
+                <span>{props.t("Giao dịch")}</span>
+              </Link>
+            </li>
+
+            <li className="menu-title">{props.t("Dịch vụ")}</li>
+            <li>
+              <Link to="/service-list">
+                <i className="bx bx-window"></i>
+                <span>{props.t("Các dịch vụ")}</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/symptoms">
+                <i className="bx bx-spreadsheet"></i>
+                <span>{props.t("Triệu chứng")}</span>
+              </Link>
+            </li>
+
+            <li className="menu-title">{props.t("Quản lý")}</li>
+            <li>
+              <Link to="/car-brand">
+                <i className="bx bx-car"></i>
+                <span>{props.t("Phương tiện")}</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/users">
+                <i className="bx bxs-user-circle"></i>
+                <span>{props.t("Khách hàng")}</span>
               </Link>
             </li>
           </ul>

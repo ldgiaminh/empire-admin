@@ -15,22 +15,54 @@ import Dashboard from "../pages/Dashboard/index"
 
 //Booking
 import Booking from "../pages/Booking/index"
+import BookingDetails from "../pages/Booking/Details/BookingDetails"
+import QrScanner from "pages/Booking/QrScanner"
 
 //Order Service
 import OrderService from "../pages/OrderServices/index"
-import OrderServiceDiagnose from "pages/OrderServices/OrderServiceDiagnose"
-import OrderServiceDetail from "pages/OrderServices/OrderServiceDetail"
+import OrderServiceDetail from "pages/OrderServices/Details/OrderServiceDetail"
+
+//Transaction
+import Transaction from "../pages/Transaction/index"
+
+//User
+import UserLists from "../pages/User/index"
+
+//Car brand
+import CarBrand from "../pages/CarBrand/index"
+
+//Symptom
+import SymptomLists from "../pages/Symptom/index"
+
+//Group Service
+import GroupService from "../pages/GroupService/index"
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: Dashboard },
 
   //booking
   { path: "/booking", component: Booking },
+  { path: "/booking-detail/:id", component: BookingDetails },
+  { path: "/scanner", component: QrScanner },
 
   //order service
   { path: "/order-service", component: OrderService },
-  { path: "/order-service-diagnose", component: OrderServiceDiagnose },
-  { path: "/order-service-detail", component: OrderServiceDetail },
+  { path: "/order-service-detail/:id", component: OrderServiceDetail },
+
+  //transaction
+  { path: "/transactions", component: Transaction },
+
+  //symptom
+  { path: "/symptoms", component: SymptomLists },
+
+  //group-service
+  { path: "/service-list", component: GroupService },
+
+  //user
+  { path: "/users", component: UserLists },
+
+  //Vehicle
+  { path: "/car-brand", component: CarBrand },
 
   // //profile
   { path: "/profile", component: UserProfile },

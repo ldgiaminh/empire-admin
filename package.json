@@ -1,7 +1,8 @@
 {
-  "name": "skote-react-hook",
+  "name": "empire-garage-fe",
   "version": "2.0.0",
   "private": true,
+   "homepage": "https://myusername.github.io/my-app",
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^34.0.0",
     "@ckeditor/ckeditor5-react": "^5.0.0",
@@ -29,6 +30,7 @@
     "eslint": "^7.29.0",
     "firebase": "^9.6.10",
     "formik": "^2.2.9",
+    "gh-pages": "^5.0.0",
     "google-maps-react": "^2.0.6",
     "i18next": "^21.6.16",
     "i18next-browser-languagedetector": "^6.1.4",
@@ -37,7 +39,7 @@
     "lodash.clonedeep": "^4.5.0",
     "match-sorter": "^6.3.1",
     "metismenujs": "^1.3.1",
-    "moment": "2.29.2",
+    "moment": "2.29.4",
     "node-sass": "^6.0.1",
     "nouislider-react": "^3.4.0",
     "prop-types": "^15.7.2",
@@ -63,6 +65,7 @@
     "react-flatpickr": "^3.10.7",
     "react-google-login": "^5.2.2",
     "react-i18next": "^11.10.0",
+    "react-icons": "^4.7.1",
     "react-image-lightbox": "^5.1.1",
     "react-input-mask": "^2.0.4",
     "react-jvectormap": "^0.0.16",
@@ -70,6 +73,7 @@
     "react-modal-video": "^1.2.7",
     "react-native-inline-datepicker": "^1.2.0",
     "react-perfect-scrollbar": "^1.5.8",
+    "react-qr-reader": "^2.2.1",
     "react-rangeslider": "^2.2.0",
     "react-rating": "^2.0.5",
     "react-rating-tooltip": "^1.2.0",
@@ -102,7 +106,9 @@
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"**/*.{js,jsx,json,md,html,css,less,scss}\"",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -160,6 +166,7 @@
   "devDependencies": {
     "eslint-config-standard-react": "^9.2.0",
     "eslint-plugin-react": "^7.20.6",
-    "prettier": "^2.1.1"
+    "prettier": "^2.1.1",
+    "gh-pages": "^5.0.0"
   }
 }

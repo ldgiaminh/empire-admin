@@ -40,7 +40,7 @@ import { facebook, google } from "../../config"
 
 const Login = props => {
   //meta title
-  document.title = "Login | Skote - React Admin & Dashboard Template"
+  document.title = "Login | Empire Admin"
 
   const dispatch = useDispatch()
 
@@ -49,7 +49,7 @@ const Login = props => {
     enableReinitialize: true,
 
     initialValues: {
-      email: "admin@themesbrand.com" || "",
+      email: "admin@gmail.com" || "",
       password: "123456" || "",
     },
     validationSchema: Yup.object({
@@ -58,6 +58,7 @@ const Login = props => {
     }),
     onSubmit: values => {
       dispatch(loginUser(values, props.history))
+      console.log(values)
     },
   })
 
@@ -65,38 +66,38 @@ const Login = props => {
     error: state.Login.error,
   }))
 
-  const signIn = (res, type) => {
-    if (type === "google" && res) {
-      const postData = {
-        name: res.profileObj.name,
-        email: res.profileObj.email,
-        token: res.tokenObj.access_token,
-        idToken: res.tokenId,
-      }
-      dispatch(socialLogin(postData, props.history, type))
-    } else if (type === "facebook" && res) {
-      const postData = {
-        name: res.name,
-        email: res.email,
-        token: res.accessToken,
-        idToken: res.tokenId,
-      }
-      dispatch(socialLogin(postData, props.history, type))
-    }
-  }
+  // const signIn = (res, type) => {
+  //   if (type === "google" && res) {
+  //     const postData = {
+  //       name: res.profileObj.name,
+  //       email: res.profileObj.email,
+  //       token: res.tokenObj.access_token,
+  //       idToken: res.tokenId,
+  //     }
+  //     dispatch(socialLogin(postData, props.history, type))
+  //   } else if (type === "facebook" && res) {
+  //     const postData = {
+  //       name: res.name,
+  //       email: res.email,
+  //       token: res.accessToken,
+  //       idToken: res.tokenId,
+  //     }
+  //     dispatch(socialLogin(postData, props.history, type))
+  //   }
+  // }
 
   //handleGoogleLoginResponse
-  const googleResponse = response => {
-    signIn(response, "google")
-  }
+  // const googleResponse = response => {
+  //   signIn(response, "google")
+  // }
 
   //handleTwitterLoginResponse
   // const twitterResponse = e => {}
 
   //handleFacebookLoginResponse
-  const facebookResponse = response => {
-    signIn(response, "facebook")
-  }
+  // const facebookResponse = response => {
+  //   signIn(response, "facebook")
+  // }
 
   return (
     <React.Fragment>
@@ -154,7 +155,7 @@ const Login = props => {
                         <Input
                           name="email"
                           className="form-control"
-                          placeholder="Enter email"
+                          placeholder="Nhập email"
                           type="email"
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
@@ -178,7 +179,7 @@ const Login = props => {
                           name="password"
                           value={validation.values.password || ""}
                           type="password"
-                          placeholder="Enter Password"
+                          placeholder="Nhập mật khẩu"
                           onChange={validation.handleChange}
                           onBlur={validation.handleBlur}
                           invalid={
@@ -206,7 +207,7 @@ const Login = props => {
                           className="form-check-label"
                           htmlFor="customControlInline"
                         >
-                          Remember me
+                          Nhớ tài khoản
                         </label>
                       </div>
 
@@ -215,14 +216,14 @@ const Login = props => {
                           className="btn btn-primary btn-block"
                           type="submit"
                         >
-                          Log In
+                          Đăng nhập
                         </button>
                       </div>
 
                       <div className="mt-4 text-center">
                         <Link to="/forgot-password" className="text-muted">
                           <i className="mdi mdi-lock me-1" />
-                          Forgot your password?
+                          Quên mật khẩu
                         </Link>
                       </div>
                     </Form>
