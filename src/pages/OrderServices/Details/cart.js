@@ -25,40 +25,33 @@ import {
 const Cart = ({ details, services, healthCarRecord, order }) => {
   const dispatch = useDispatch()
 
-  const [inputFields, setInputFields] = useState(() => {
-    return services.map(service => {
-      return {
-        id: service.id,
-        isConfirmed: service.isConfirmed,
-      }
-    })
-  })
-
-  // const handleInputChange = event => {
-  //   const { id, checked } = event.target
-  //   const index = inputFields.findIndex(input => input.id === id)
-  //   const newInputFields = [...inputFields]
-  //   if (index !== -1 && newInputFields[index].isConfirmed !== checked) {
-  //     newInputFields[index].isConfirmed = checked
-  //   } else if (index === -1) {
-  //     newInputFields.push({ id: id, isConfirmed: checked })
-  //   }
-  //   setInputFields(newInputFields)
-  // }
+  const [inputFields, setInputFields] = useState([])
 
   const handleInputChange = event => {
     const { id, checked } = event.target
-    setInputFields(prevInputFields => {
-      const index = prevInputFields.findIndex(input => input.id === id)
-      const newInputFields = [...prevInputFields]
-      if (index !== -1 && newInputFields[index].isConfirmed !== checked) {
-        newInputFields[index].isConfirmed = checked
-      } else if (index === -1) {
-        newInputFields.push({ id: id, isConfirmed: checked })
-      }
-      return newInputFields
-    })
+    const index = inputFields.findIndex(input => input.id === id)
+    const newInputFields = [...inputFields]
+    if (index !== -1 && newInputFields[index].isConfirmed !== checked) {
+      newInputFields[index].isConfirmed = checked
+    } else if (index === -1) {
+      newInputFields.push({ id: id, isConfirmed: checked })
+    }
+    setInputFields(newInputFields)
   }
+
+  // const handleInputChange = event => {
+  //   const { id, checked } = event.target
+  //   setInputFields(prevInputFields => {
+  //     const index = prevInputFields.findIndex(input => input.id === id)
+  //     const newInputFields = [...prevInputFields]
+  //     if (index !== -1 && newInputFields[index].isConfirmed !== checked) {
+  //       newInputFields[index].isConfirmed = checked
+  //     } else if (index === -1) {
+  //       newInputFields.push({ id: id, isConfirmed: checked })
+  //     }
+  //     return newInputFields
+  //   })
+  // }
 
   const total = services.reduce((acc, service) => acc + service.price, 0)
 
@@ -80,20 +73,20 @@ const Cart = ({ details, services, healthCarRecord, order }) => {
     hideMethod: "fadeOut",
   }
 
-  // const handleConfirm = () => {
-  //   const services = {
-  //     orderServiceDetails: inputFields,
-  //     paymentMethod: 1,
-  //   }
-  //   dispatch(onConfirmPaidServices(id, services))
-  //   console.log(services)
-  //   toastr.success("Xác nhận thành công dịch vụ của đơn" + id, "Thành công")
-  //   dispatch(onGetOrderServiceDetail(id))
-  // }
-
   const handleConfirm = () => {
-    console.log(inputFields)
+    const services = {
+      orderServiceDetails: inputFields,
+      paymentMethod: 1,
+    }
+    dispatch(onConfirmPaidServices(id, services))
+    console.log(services)
+    toastr.success("Xác nhận thành công dịch vụ của đơn" + id, "Thành công")
+    dispatch(onGetOrderServiceDetail(id))
   }
+
+  // const handleConfirm = () => {
+  //   console.log(inputFields)
+  // }
 
   const handleCheckOut = () => {
     const statusLogId = {
