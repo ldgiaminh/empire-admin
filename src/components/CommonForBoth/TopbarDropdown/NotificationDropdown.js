@@ -1,19 +1,63 @@
-import React, { useState } from "react";
-import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
-import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap";
-import SimpleBar from "simplebar-react";
+import React, { useEffect, useState } from "react"
+import PropTypes from "prop-types"
+import { Link } from "react-router-dom"
+import { Dropdown, DropdownToggle, DropdownMenu, Row, Col } from "reactstrap"
+import SimpleBar from "simplebar-react"
 
 //Import images
-import avatar3 from "../../../assets/images/users/avatar-3.jpg";
-import avatar4 from "../../../assets/images/users/avatar-4.jpg";
+import avatar3 from "../../../assets/images/users/avatar-3.jpg"
+import avatar4 from "../../../assets/images/users/avatar-4.jpg"
 
 //i18n
-import { withTranslation } from "react-i18next";
+import { withTranslation } from "react-i18next"
+import { child, get, onValue, ref } from "firebase/database"
+import { db } from "helpers/firebase"
 
 const NotificationDropdown = props => {
   // Declare a new state variable, which we'll call "menu"
-  const [menu, setMenu] = useState(false);
+  const [menu, setMenu] = useState(false)
+
+  const [userId, setUserId] = useState("")
+  const [notis, setNotis] = useState({})
+
+  useEffect(() => {
+    if (localStorage.getItem("authUser")) {
+      const obj = JSON.parse(localStorage.getItem("authUser"))
+      setUserId(obj.id)
+    }
+  }, [])
+
+  useEffect(() => {
+    get(child(ref(db), `users/${userId}/notifications/`))
+      .then(snapshot => {
+        if (snapshot.exists()) {
+          const fetched = snapshot.val()
+          setNotis(fetched)
+        } else {
+          console.log("")
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }, [userId])
+
+  console.log(notis)
+
+  const createAtDate = notis.time
+  const createDate = new Date(createAtDate)
+  const formattedDate1 = createDate.toLocaleDateString("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+  const formattedTime1 = createDate.toLocaleTimeString("vi-VN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  })
+  const formattedDateTime1 = `${formattedTime1} - ${formattedDate1}`
 
   return (
     <React.Fragment>
@@ -29,51 +73,48 @@ const NotificationDropdown = props => {
           id="page-header-notifications-dropdown"
         >
           <i className="bx bx-bell bx-tada" />
-          <span className="badge bg-danger rounded-pill">3</span>
+          <span className="badge bg-danger rounded-pill">6</span>
         </DropdownToggle>
 
         <DropdownMenu className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0">
           <div className="p-3">
             <Row className="align-items-center">
               <Col>
-                <h6 className="m-0"> {props.t("Notifications")} </h6>
+                <h6 className="m-0"> {props.t("Thông báo")} </h6>
               </Col>
-              <div className="col-auto">
+              {/* <div className="col-auto">
                 <a href="#" className="small">
                   {" "}
                   View All
                 </a>
-              </div>
+              </div> */}
             </Row>
           </div>
 
           <SimpleBar style={{ height: "230px" }}>
-            <Link to="" className="text-reset notification-item">
-              <div className="d-flex">
-                <div className="avatar-xs me-3">
-                  <span className="avatar-title bg-primary rounded-circle font-size-16">
-                    <i className="bx bx-cart" />
-                  </span>
-                </div>
-                <div className="flex-grow-1">
-                  <h6 className="mt-0 mb-1">
-                    {props.t("Your order is placed")}
-                  </h6>
-                  <div className="font-size-12 text-muted">
-                    <p className="mb-1">
-                      {props.t(
-                        "If several languages coalesce the grammar"
-                      )}
-                    </p>
-                    <p className="mb-0">
-                      <i className="mdi mdi-clock-outline" />{" "}
-                      {props.t("3 min ago")}{" "}
-                    </p>
+            <>
+              <Link to="#" className="text-reset notification-item">
+                <div className="d-flex">
+                  <div className="avatar-xs me-3">
+                    <span className="avatar-title bg-primary rounded-circle font-size-16">
+                      <i className="bx bx-cart" />
+                    </span>
+                  </div>
+                  <div className="flex-grow-1">
+                    <h6 className="mt-0 mb-1">{notis.title}</h6>
+                    <div className="font-size-12 text-muted">
+                      <p className="mb-1">{notis.message}</p>
+                      <p className="mb-0">
+                        <i className="mdi mdi-clock-outline" />{" "}
+                        {formattedDateTime1}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-            <Link to="" className="text-reset notification-item">
+              </Link>
+            </>
+
+            {/* <Link to="" className="text-reset notification-item">
               <div className="d-flex">
                 <img
                   src={avatar3}
@@ -84,8 +125,7 @@ const NotificationDropdown = props => {
                   <h6 className="mt-0 mb-1">James Lemire</h6>
                   <div className="font-size-12 text-muted">
                     <p className="mb-1">
-                      {props.t("It will seem like simplified English") +
-                        "."}
+                      {props.t("It will seem like simplified English") + "."}
                     </p>
                     <p className="mb-0">
                       <i className="mdi mdi-clock-outline" />
@@ -108,9 +148,7 @@ const NotificationDropdown = props => {
                   </h6>
                   <div className="font-size-12 text-muted">
                     <p className="mb-1">
-                      {props.t(
-                        "If several languages coalesce the grammar"
-                      )}
+                      {props.t("If several languages coalesce the grammar")}
                     </p>
                     <p className="mb-0">
                       <i className="mdi mdi-clock-outline" />{" "}
@@ -143,21 +181,25 @@ const NotificationDropdown = props => {
                   </div>
                 </div>
               </div>
-            </Link>
+            </Link> */}
           </SimpleBar>
-          <div className="p-2 border-top d-grid">
-            <Link className="btn btn-sm btn-link font-size-14 text-center" to="#">
-              <i className="mdi mdi-arrow-right-circle me-1"></i> <span key="t-view-more">{props.t("View More..")}</span>
+          {/* <div className="p-2 border-top d-grid">
+            <Link
+              className="btn btn-sm btn-link font-size-14 text-center"
+              to="#"
+            >
+              <i className="mdi mdi-arrow-right-circle me-1"></i>{" "}
+              <span key="t-view-more">{props.t("View More..")}</span>
             </Link>
-          </div>
+          </div> */}
         </DropdownMenu>
       </Dropdown>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default withTranslation()(NotificationDropdown);
+export default withTranslation()(NotificationDropdown)
 
 NotificationDropdown.propTypes = {
-  t: PropTypes.any
-};
+  t: PropTypes.any,
+}

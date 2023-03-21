@@ -142,20 +142,20 @@ const OrderServiceDetail = props => {
   //   console.log(params)
   // }
 
-  // const createAtDate = orderServiceLog[2].logDateTime
-  // const createDate = new Date(createAtDate)
-  // const formattedDate = createDate.toLocaleDateString("vi-VN", {
-  //   day: "2-digit",
-  //   month: "2-digit",
-  //   year: "numeric",
-  // })
-  // const formattedTime = createDate.toLocaleTimeString("vi-VN", {
-  //   hour: "2-digit",
-  //   minute: "2-digit",
-  //   second: "2-digit",
-  //   hour12: false,
-  // })
-  // const formattedDateTime = ` ${formattedTime} ${formattedDate}`
+  const createAtDate = orderServicesDetails?.order?.createdAt
+  const createDate = new Date(createAtDate)
+  const formattedDate = createDate.toLocaleDateString("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+  const formattedTime = createDate.toLocaleTimeString("vi-VN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  })
+  const formattedDateTime = ` ${formattedTime} - ${formattedDate}`
 
   return (
     <>
@@ -171,6 +171,145 @@ const OrderServiceDetail = props => {
           {!isEmpty(orderServicesDetails) && (
             <React.Fragment>
               <Row>
+                <Col>
+                  <Card>
+                    <CardBody>
+                      <CardTitle>Thông tin tổng</CardTitle>
+                      <CardSubtitle className="mb-3">
+                        Chi tiết về đặt lịch và thông tin khách hàng
+                      </CardSubtitle>
+
+                      <Row>
+                        <Col lg="6">
+                          <div className="table-responsive">
+                            <Table className="table table-borderless  mb-0">
+                              <tbody>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Tên khách:
+                                  </th>
+                                  <td>
+                                    {orderServicesDetails.order.user.fullname}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Số điện thoại :
+                                  </th>
+                                  <td>{`(+${orderServicesDetails.order.user.phone.slice(
+                                    1,
+                                    3
+                                  )}) ${orderServicesDetails.order.user.phone.slice(
+                                    3
+                                  )}`}</td>
+                                </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    E-mail :
+                                  </th>
+                                  <td>
+                                    {orderServicesDetails.order.user.email}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Biển số xe:
+                                  </th>
+                                  <td>
+                                    {orderServicesDetails.car.carLisenceNo}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Thương hiệu xe:
+                                  </th>
+                                  <td>
+                                    {orderServicesDetails.car.carBrand +
+                                      " - " +
+                                      orderServicesDetails.car.carModel}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </Table>
+                          </div>
+                        </Col>
+                        <Col lg="6">
+                          <div className="table-responsive">
+                            <Table className="table table-borderless  mb-0">
+                              <tbody>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Hóa đơn tạo lúc :
+                                  </th>
+                                  <td>{formattedDateTime}</td>
+                                </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Tình trạng khách mô tả :
+                                  </th>
+                                  <td>
+                                    {Array.isArray(
+                                      orderServicesDetails.receivingStatus
+                                    )
+                                      ? orderServicesDetails.receivingStatus.join(
+                                          ", "
+                                        )
+                                      : ""}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Kỹ thuật viên chính :
+                                  </th>
+                                  <td>
+                                    {orderServicesDetails.expert.fullname !=
+                                    null
+                                      ? orderServicesDetails.expert.fullname
+                                      : "Chưa có kỹ thuật viên chính"}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </Table>
+                          </div>
+                        </Col>
+                      </Row>
+                    </CardBody>
+                  </Card>
+                </Col>
+              </Row>
+              {/* <Row>
                 <CardUser information={orderServicesDetails} />
 
                 <Col xl="8">
@@ -186,7 +325,7 @@ const OrderServiceDetail = props => {
                     />
                   </Row>
                 </Col>
-              </Row>
+              </Row> */}
               <Row>
                 {orderServicesDetails.healthCarRecord != null ? (
                   <Cart

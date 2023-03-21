@@ -19,7 +19,7 @@ import NonAuthLayout from "./components/NonAuthLayout"
 import "./assets/scss/theme.scss"
 
 // Import Firebase Configuration file
-// import { initFirebaseBackend } from "./helpers/firebase_helper";
+//import { initFirebaseBackend } from "./helpers/firebase_helper"
 
 //import fakeBackend from "./helpers/AuthType/fakeBackend"
 
@@ -35,10 +35,10 @@ import "./assets/scss/theme.scss"
 //   messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
 //   appId: process.env.REACT_APP_APPID,
 //   measurementId: process.env.REACT_APP_MEASUREMENTID,
-// };
+// }
 
 // init firebase backend
-// initFirebaseBackend(firebaseConfig);
+//initFirebaseBackend(firebaseConfig)
 
 const App = props => {
   function getLayout() {

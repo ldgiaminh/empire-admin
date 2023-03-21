@@ -107,7 +107,7 @@ export const getBookingsLists = () => get(url.GET_BOOKING_LIST)
 
 //Booking List By Date
 export const getBookingListsByDate = date =>
-  get(`${url.GET_BOOKING_LIST_BY_DATE}?date=${date}`, { params: date })
+  get(`${url.GET_BOOKING_LIST_BY_DATE}?date=${date}`)
 
 //Booking Detail
 export const getBookingsDetails = id => get(`${url.GET_BOOKING_DETAIL}/${id}`)

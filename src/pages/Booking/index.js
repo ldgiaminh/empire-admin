@@ -38,6 +38,7 @@ import Breadcrumbs from "components/Common/Breadcrumb"
 
 import {
   getBookingLists as onGetBookings,
+  getBookingListsByDate as onGetBookingByDate,
   checkinBooking as checkInBooking,
   changePreloader as onLoading,
 } from "store/actions"
@@ -65,7 +66,8 @@ const BookingList = props => {
   const weekDays = []
   let currentDate = monday.clone()
   while (currentDate.isSameOrBefore(sunday, "day")) {
-    const date = currentDate.clone().format("YYYY-MM-DD") + "T00:00:00+00:00"
+    //const date = currentDate.clone().format("YYYY-MM-DD") + "T00:00:00+00:00"
+    const date = currentDate.clone().format("YYYY-MM-DD")
     const dateFormat = currentDate.clone().format("DD/MM")
     const dayArray = currentDate.format("dddd").split(" ")
     dayArray[0] = dayArray[0].charAt(0).toUpperCase() + dayArray[0].slice(1)
@@ -101,6 +103,8 @@ const BookingList = props => {
   const toggleTab = index => {
     setActiveTab(index)
     setSubActiveTab(0)
+    const activeDate = weekDays[index].date
+    dispatch(onGetBookingByDate(activeDate))
   }
 
   //Nested Tabs
@@ -120,12 +124,15 @@ const BookingList = props => {
     isPreloader: state.Layout.isPreloader,
   }))
 
+  const activeDate = weekDays[activeTab].date
+
   useEffect(() => {
     if (bookings && !bookings.length) {
       // dispatch(onLoading(true))
-      dispatch(onGetBookings())
+      //dispatch(onGetBookings())
+      dispatch(onGetBookingByDate(activeDate))
     }
-  }, [dispatch, bookings])
+  }, [dispatch, bookings, activeDate])
 
   useEffect(() => {
     setBooking(bookings)
@@ -484,11 +491,7 @@ const BookingList = props => {
                                   <TabPane id="not-yet">
                                     <TableContainer
                                       columns={columnsNotYet}
-                                      data={pendingBooking.filter(booking => {
-                                        const dayBooking =
-                                          booking.date === day.date
-                                        return dayBooking
-                                      })}
+                                      data={pendingBooking}
                                       isGlobalFilter={true}
                                       isAddBookingOptions={false}
                                       //handleUserClick={handleUserClicks}
@@ -503,11 +506,7 @@ const BookingList = props => {
                                   <TabPane id="not-yet">
                                     <TableContainer
                                       columns={columnsArrivedCancel}
-                                      data={arrivedBooking.filter(booking => {
-                                        const dayBooking =
-                                          booking.date === day.date
-                                        return dayBooking
-                                      })}
+                                      data={arrivedBooking}
                                       isGlobalFilter={true}
                                       isAddBookingOptions={false}
                                       //handleUserClick={handleUserClicks}
@@ -520,11 +519,7 @@ const BookingList = props => {
                                   <TabPane id="not-yet">
                                     <TableContainer
                                       columns={columnsArrivedCancel}
-                                      data={cancelBooking.filter(booking => {
-                                        const dayBooking =
-                                          booking.date === day.date
-                                        return dayBooking
-                                      })}
+                                      data={cancelBooking}
                                       isGlobalFilter={true}
                                       isAddBookingOptions={false}
                                       //handleUserClick={handleUserClicks}

@@ -25,7 +25,18 @@ import {
 const Cart = ({ details, services, healthCarRecord, order }) => {
   const dispatch = useDispatch()
 
+  // const [inputFields, setInputFields] = useState(() => {
+  //   return services.map(service => {
+  //     return {
+  //       id: service.id,
+  //       isConfirmed: service.isConfirmed,
+  //     }
+  //   })
+  // })
+
   const [inputFields, setInputFields] = useState([])
+
+  const initialConfirmed = inputFields.every(field => !field.isConfirmed)
 
   const handleInputChange = event => {
     const { id, checked } = event.target
@@ -41,16 +52,17 @@ const Cart = ({ details, services, healthCarRecord, order }) => {
 
   // const handleInputChange = event => {
   //   const { id, checked } = event.target
-  //   setInputFields(prevInputFields => {
-  //     const index = prevInputFields.findIndex(input => input.id === id)
-  //     const newInputFields = [...prevInputFields]
-  //     if (index !== -1 && newInputFields[index].isConfirmed !== checked) {
-  //       newInputFields[index].isConfirmed = checked
-  //     } else if (index === -1) {
-  //       newInputFields.push({ id: id, isConfirmed: checked })
-  //     }
-  //     return newInputFields
-  //   })
+  //   const index = inputFields.findIndex(input => input.id === id)
+  //   const newInputFields = [...inputFields]
+  //   if (index !== -1 && newInputFields[index].isConfirmed !== checked) {
+  //     newInputFields[index].isConfirmed = checked
+  //   } else if (index === -1) {
+  //     newInputFields.push({ id: id, isConfirmed: checked })
+  //   }
+
+  //   const hasConfirmed = newInputFields.some(field => field.isConfirmed)
+
+  //   setInputFields(hasConfirmed ? newInputFields : initialConfirmed)
   // }
 
   const total = services.reduce((acc, service) => acc + service.price, 0)
@@ -80,8 +92,8 @@ const Cart = ({ details, services, healthCarRecord, order }) => {
     }
     dispatch(onConfirmPaidServices(id, services))
     console.log(services)
-    toastr.success("Xác nhận thành công dịch vụ của đơn" + id, "Thành công")
-    dispatch(onGetOrderServiceDetail(id))
+    toastr.success("Xác nhận thành công dịch vụ của đơn", "#" + details.code)
+    dispatch(onGetOrderServiceDetail(details.id))
   }
 
   // const handleConfirm = () => {
