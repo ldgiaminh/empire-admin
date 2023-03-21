@@ -16,39 +16,41 @@ const QrScanner = props => {
   const [showScanner, setShowScanner] = useState(true)
   const [bookingId, setBookingId] = useState(null)
   const [errorStatus, setErrorStatus] = useState(null)
+  const obj = JSON.parse(localStorage.getItem("authUser"))
+
   const handleScan = data => {
     if (data) {
       setShowScanner(false)
       setQRData(data)
-      dispatch(checkInQRCode(data))
-      goToCheckin(data.bookingId)
-      // fetch(
-      //   `https://dev-empire-api.azurewebsites.net/api/v1/booking-qrcode/close-generation?qrcode=${encodeURIComponent(
-      //     data
-      //   )}`,
-      //   {
-      //     method: "PUT",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //       Authorization:
-      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4ZTc1ZjI2ZS0wNGU1LTRlNzctOWNkZi05YWM1MWM2MGU4M2IiLCJuYW1lIjoiVGjDtG5nIEhvw6BuZyIsIm5hbWVpZCI6IjciLCJyb2xlIjoiVVMiLCJuYmYiOjE2NzcxMzk5NDQsImV4cCI6MTcwODY3NTk0NCwiaWF0IjoxNjc3MTM5OTQ0fQ.CKR7ILcdt9KrGr-I6kxugrQ8jBeaMuTlDLPF8kW53EQ",
-      //     },
-      //   }
-      // )
-      //   .then(response => {
-      //     if (!response.ok) {
-      //       setErrorStatus(response.status)
-      //       throw new Error("Network response was not ok")
-      //     }
-      //     return response.json()
-      //   })
-      //   .then(data => {
-      //     setBookingId(data.bookingId)
-      //     goToCheckin(data.bookingId)
-      //   })
-      //   .catch(error => {
-      //     console.error("Error:", error)
-      //   })
+      //dispatch(checkInQRCode(data))
+      //goToCheckin(data.bookingId)
+      fetch(
+        `https://dev-empire-api.azurewebsites.net/api/v1/booking-qrcode/close-generation?qrcode=${encodeURIComponent(
+          data
+        )}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: obj.accessToken,
+          },
+        }
+      )
+        .then(response => {
+          if (!response.ok) {
+            setErrorStatus(response.status)
+            throw new Error("Network response was not ok")
+          }
+          return response.json()
+        })
+        .then(data => {
+          setBookingId(data.bookingId)
+          goToCheckin(data.bookingId)
+        })
+        .catch(error => {
+          console.error("Error:", error)
+        })
+      console.log(data)
     }
   }
   const handleError = err => {

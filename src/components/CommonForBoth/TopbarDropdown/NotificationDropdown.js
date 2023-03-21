@@ -42,8 +42,6 @@ const NotificationDropdown = props => {
       })
   }, [userId])
 
-  //console.log(notis)
-
   const createAtDate = notis.time
   const createDate = new Date(createAtDate)
   const formattedDate1 = createDate.toLocaleDateString("vi-VN", {

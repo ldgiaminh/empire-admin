@@ -164,6 +164,22 @@ const BookingDetails = props => {
   })
   const formattedDateTime2 = `${formattedDate2} - ${formattedTime2}`
 
+  /* ARRIVED DATE */
+  const PaidDate = bookingDetail.transaction?.transactionDate
+  const paidDate = new Date(PaidDate)
+  const formattedDate3 = paidDate.toLocaleDateString("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  })
+  const formattedTime3 = paidDate.toLocaleTimeString("vi-VN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  })
+  const formattedDateTime3 = `${formattedTime3} - ${formattedDate3}`
+
   /* ========================================== RENDER ==============================================*/
   return (
     <React.Fragment>
@@ -405,6 +421,22 @@ const BookingDetails = props => {
                                   </th>
                                   <td>{bookingDetail.user.email}</td>
                                 </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Trạng thái :
+                                  </th>
+                                  <td>
+                                    {bookingDetail.isActived
+                                      ? bookingDetail.isArrived
+                                        ? "Đã đến"
+                                        : "Chưa đến"
+                                      : "Hủy"}
+                                  </td>
+                                </tr>
                               </tbody>
                             </Table>
                           </div>
@@ -413,7 +445,7 @@ const BookingDetails = props => {
                           <div className="table-responsive">
                             <Table className="table table-borderless  mb-0">
                               <tbody>
-                                <tr>
+                                {/* <tr>
                                   <th
                                     scope="row"
                                     style={{ width: "300px" }}
@@ -422,7 +454,7 @@ const BookingDetails = props => {
                                     Thời gian tạo lịch :
                                   </th>
                                   <td>{formattedDateTime1}</td>
-                                </tr>
+                                </tr> */}
                                 <tr>
                                   <th
                                     scope="row"
@@ -443,15 +475,37 @@ const BookingDetails = props => {
                                     style={{ width: "300px" }}
                                     className={"text-capitalize"}
                                   >
-                                    Trạng thái :
+                                    Số tiền :
                                   </th>
                                   <td>
-                                    {bookingDetail.isActived
-                                      ? bookingDetail.isArrived
-                                        ? "Đã đến"
-                                        : "Chưa đến"
-                                      : "Hủy"}
+                                    {bookingDetail.transaction.total.toLocaleString()}
+                                    ₫
                                   </td>
+                                </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Phương thức thanh toán :
+                                  </th>
+                                  <td>
+                                    {
+                                      bookingDetail.transaction.paymentMethod
+                                        .name
+                                    }
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
+                                    Thanh toán lúc :
+                                  </th>
+                                  <td>{formattedDateTime3}</td>
                                 </tr>
                               </tbody>
                             </Table>

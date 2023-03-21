@@ -48,10 +48,11 @@ const OrderSerives = props => {
 
   const statusServices = [
     { id: "0", title: "Đang chuẩn đoán" },
-    { id: "1", title: "Chờ xác nhận và thanh toán" },
-    { id: "2", title: "Đang thực hiện" },
-    { id: "3", title: "Chờ khách nhận xe" },
-    { id: "4", title: "Hoàn thành" },
+    { id: "1", title: "Xác nhận giá" },
+    { id: "2", title: "Chờ xác nhận và thanh toán" },
+    { id: "3", title: "Đang thực hiện" },
+    { id: "4", title: "Chờ khách nhận xe" },
+    { id: "5", title: "Hoàn thành" },
     { id: "-1", title: "Hủy" },
   ]
 
@@ -74,7 +75,7 @@ const OrderSerives = props => {
     }
   }
 
-  const columnsAssign = useMemo(
+  const columnsConfirm = useMemo(
     () => [
       {
         Header: "Mã đơn hàng",
@@ -267,7 +268,7 @@ const OrderSerives = props => {
                   <TabContent activeTab={activeTab} className="p-3">
                     <TabPane tabId="0" id="diagnosing">
                       <TableContainer
-                        columns={columnsAssign}
+                        columns={columns}
                         data={orderServicess}
                         isGlobalFilter={true}
                         // isAddUserList={true}
@@ -276,7 +277,7 @@ const OrderSerives = props => {
                         className="custom-header-css"
                       />
                     </TabPane>
-                    <TabPane tabId="1" id="diagnosing">
+                    <TabPane tabId="1" id="confirmPrice">
                       <TableContainer
                         columns={columns}
                         data={orderServicess}
@@ -287,7 +288,7 @@ const OrderSerives = props => {
                         className="custom-header-css"
                       />
                     </TabPane>
-                    <TabPane tabId="2" id="pending">
+                    <TabPane tabId="2" id="confirmPaid">
                       <TableContainer
                         columns={columns}
                         data={orderServicess}
@@ -310,6 +311,17 @@ const OrderSerives = props => {
                       />
                     </TabPane>
                     <TabPane tabId="4" id="checkout">
+                      <TableContainer
+                        columns={columns}
+                        data={orderServicess}
+                        isGlobalFilter={true}
+                        // isAddUserList={true}
+                        // handleUserClick={handleUserClicks}
+                        customPageSize={10}
+                        className="custom-header-css"
+                      />
+                    </TabPane>
+                    <TabPane tabId="5" id="checkout">
                       <TableContainer
                         columns={columns}
                         data={orderServicess}

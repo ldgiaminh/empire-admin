@@ -228,7 +228,7 @@ const Cart = ({ details, services, healthCarRecord, order }) => {
                         className="btn btn-success"
                       >
                         <i className="mdi mdi-cart-arrow-right me-1" /> Xác nhận
-                        và thanh toán
+                        giá
                       </Button>
                     </div>
                   </Col>
@@ -237,7 +237,7 @@ const Cart = ({ details, services, healthCarRecord, order }) => {
             )}
           </Card>
         </Col>
-        <Col xl="4">
+        {/* <Col xl="4">
           <Card>
             <CardBody>
               <CardTitle className="mb-3">Tổng hóa đơn</CardTitle>
@@ -260,7 +260,7 @@ const Cart = ({ details, services, healthCarRecord, order }) => {
               </div>
             </CardBody>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </React.Fragment>
   )

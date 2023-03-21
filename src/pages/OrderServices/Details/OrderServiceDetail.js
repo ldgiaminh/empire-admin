@@ -80,11 +80,11 @@ const OrderServiceDetail = props => {
     dispatch(onGetExpert())
   }, [onGetExpert])
 
-  useEffect(() => {
-    if (params && params.id) {
-      dispatch(onGetStatusLog(params.id))
-    }
-  }, [params, onGetStatusLog])
+  // useEffect(() => {
+  //   if (params && params.id) {
+  //     dispatch(onGetStatusLog(params.id))
+  //   }
+  // }, [params, onGetStatusLog])
 
   // Function for Create Input Fields
   function handleAddFields() {
@@ -273,6 +273,19 @@ const OrderServiceDetail = props => {
                                     style={{ width: "300px" }}
                                     className={"text-capitalize"}
                                   >
+                                    Số tiền từ đặt lịch :
+                                  </th>
+                                  <td>
+                                    {orderServicesDetails.prepaidFromBooking.toLocaleString()}
+                                    ₫
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    style={{ width: "300px" }}
+                                    className={"text-capitalize"}
+                                  >
                                     Tình trạng khách mô tả :
                                   </th>
                                   <td>
@@ -294,7 +307,7 @@ const OrderServiceDetail = props => {
                                     Kỹ thuật viên chính :
                                   </th>
                                   <td>
-                                    {orderServicesDetails.expert.fullname !=
+                                    {orderServicesDetails.expert?.fullname !=
                                     null
                                       ? orderServicesDetails.expert.fullname
                                       : "Chưa có kỹ thuật viên chính"}
