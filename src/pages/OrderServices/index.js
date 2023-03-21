@@ -47,12 +47,11 @@ const OrderSerives = props => {
   document.title = "Theo dõi tiến trình | Empire Admin"
 
   const statusServices = [
-    { id: "0", title: "Chờ phân công" },
-    { id: "1", title: "Đã có kỹ thuật viên" },
-    { id: "2", title: "Đã chuẩn đoán" },
-    { id: "3", title: "Xác nhận và thanh toán" },
-    { id: "4", title: "Chờ khách lấy xe" },
-    { id: "5", title: "Hoàn thành" },
+    { id: "0", title: "Đang chuẩn đoán" },
+    { id: "1", title: "Chờ xác nhận và thanh toán" },
+    { id: "2", title: "Đang thực hiện" },
+    { id: "3", title: "Chờ khách nhận xe" },
+    { id: "4", title: "Hoàn thành" },
     { id: "-1", title: "Hủy" },
   ]
 
@@ -311,17 +310,6 @@ const OrderSerives = props => {
                       />
                     </TabPane>
                     <TabPane tabId="4" id="checkout">
-                      <TableContainer
-                        columns={columns}
-                        data={orderServicess}
-                        isGlobalFilter={true}
-                        // isAddUserList={true}
-                        // handleUserClick={handleUserClicks}
-                        customPageSize={10}
-                        className="custom-header-css"
-                      />
-                    </TabPane>
-                    <TabPane tabId="5" id="checkout">
                       <TableContainer
                         columns={columns}
                         data={orderServicess}

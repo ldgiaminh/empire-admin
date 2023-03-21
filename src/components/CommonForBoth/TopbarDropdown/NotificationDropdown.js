@@ -42,7 +42,7 @@ const NotificationDropdown = props => {
       })
   }, [userId])
 
-  console.log(notis)
+  //console.log(notis)
 
   const createAtDate = notis.time
   const createDate = new Date(createAtDate)
