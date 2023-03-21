@@ -26,7 +26,7 @@ const QrScanner = props => {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4ZTc1ZjI2ZS0wNGU1LTRlNzctOWNkZi05YWM1MWM2MGU4M2IiLCJuYW1lIjoiVGjDtG5nIEhvw6BuZyIsIm5hbWVpZCI6IjciLCJyb2xlIjoiVVMiLCJuYmYiOjE2NzcxMzk5NDQsImV4cCI6MTcwODY3NTk0NCwiaWF0IjoxNjc3MTM5OTQ0fQ.CKR7ILcdt9KrGr-I6kxugrQ8jBeaMuTlDLPF8kW53EQ",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJqdGkiOiJiNWNkNGFhMy0xYzNhLTQ0NzctYjFiZi0zYjFjYjdiMzJmMWYiLCJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMTgiLCJyb2xlIjoiQUQiLCJuYmYiOjE2Nzk0MDgyMTYsImV4cCI6MTcxMTAzMDYxNiwiaWF0IjoxNjc5NDA4MjE2fQ.jVBcHqaM1Dc8e4FNsM67bI-7SkjlAfdDhX4T5y5OqJs",
           },
         }
       )
