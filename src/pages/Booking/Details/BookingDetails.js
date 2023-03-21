@@ -117,10 +117,6 @@ const BookingDetails = props => {
     sendNotification(bookingDetail.user.id)
   }
 
-  const handleSendNoti = userId => {
-    sendNotification(userId)
-  }
-
   /*
   ==================================================
   FORMAT DATE TIME from API
@@ -557,14 +553,6 @@ const BookingDetails = props => {
               </Row>
             </>
           )}
-          <Button
-            type="button"
-            color="success"
-            className="btn btn-lg"
-            onClick={() => handleSendNoti(bookingDetail.user.id)}
-          >
-            Check-in
-          </Button>
         </Container>
       </div>
     </React.Fragment>

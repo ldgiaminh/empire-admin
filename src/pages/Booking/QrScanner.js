@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import QrReader from "react-qr-reader"
 import toastr from "toastr"
 import "toastr/build/toastr.min.css"
+import uuid from "uuid"
 import { checkinBooking as checkInBooking } from "store/actions"
 
 const QrScanner = props => {
@@ -67,7 +68,7 @@ const QrScanner = props => {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJqdGkiOiI0ZGRmZjhkZC01MTkzLTRlOGYtODQ4OC02ZWEyYjVmZDI3ODgiLCJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMTgiLCJyb2xlIjoiQUQiLCJuYmYiOjE2NzkzMjE5MjMsImV4cCI6MTcxMDk0NDMyMywiaWF0IjoxNjc5MzIxOTIzfQ.VOZRYUZer3Vat781lDsDZ5VmGhNATG1jZwZkabKfhXE",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJqdGkiOiJiNWNkNGFhMy0xYzNhLTQ0NzctYjFiZi0zYjFjYjdiMzJmMWYiLCJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMTgiLCJyb2xlIjoiQUQiLCJuYmYiOjE2Nzk0MDgyMTYsImV4cCI6MTcxMTAzMDYxNiwiaWF0IjoxNjc5NDA4MjE2fQ.jVBcHqaM1Dc8e4FNsM67bI-7SkjlAfdDhX4T5y5OqJs",
           },
         }
       )
@@ -81,7 +82,7 @@ const QrScanner = props => {
         .then(data => {
           setBookingId(data.bookingId)
           //Redirect to booking detail
-          goToCheckin(data.bookingId, data.user.id, data.code)
+          goToCheckin(bookingId, data.user.id, data.code)
         })
         .catch(error => {
           console.error("Error:", error)
