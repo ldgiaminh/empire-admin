@@ -24,6 +24,7 @@ export const GET_BOOKING_LIST = "/bookings"
 export const GET_BOOKING_LIST_BY_DATE = "/bookings/bookings-by-date"
 export const GET_BOOKING_DETAIL = "/bookings"
 export const CHECKIN_BOOKING = "/bookings/checkin"
+export const CHECKIN_QRCODE = "/booking-qrcode/close-generation"
 
 /*
 ================================================ 

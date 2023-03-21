@@ -13,6 +13,8 @@ import {
   CHECKIN_BOOKING_SUCCESS,
   GET_BOOKING_LIST_BY_DATE_SUCCESS,
   GET_BOOKING_LIST_BY_DATE_FAIL,
+  CHECKIN_QRCODE_SUCCESS,
+  CHECKIN_QRCODE_FAIL,
 } from "./actionTypes"
 
 const INIT_STATE = {
@@ -67,6 +69,25 @@ const bookings = (state = INIT_STATE, action) => {
       }
 
     case CHECKIN_BOOKING_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      }
+
+    case CHECKIN_QRCODE_SUCCESS:
+      return {
+        ...state,
+        bookingDetail: state.bookingDetail.map(booking =>
+          booking.id.toString() === action.payload.id.toString()
+            ? { booking, ...action.payload }
+            : booking
+        ),
+        bookings: state.bookings.filter(
+          booking => booking.id.toString() !== action.payload.id.toString()
+        ),
+      }
+
+    case CHECKIN_QRCODE_FAIL:
       return {
         ...state,
         error: action.payload,

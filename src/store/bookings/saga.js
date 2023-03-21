@@ -9,6 +9,7 @@ import {
   ADD_NEW_BOOKING,
   UPDATE_BOOKING,
   DELETE_BOOKING,
+  CHECKIN_QRCODE,
 } from "./actionTypes"
 
 import {
@@ -20,6 +21,8 @@ import {
   getBookingDetailsSuccess,
   checkinBookingFail,
   checkinBookingSuccess,
+  checkinQRCodeFail,
+  checkinQRCodeSuccess,
   addNewBookingFail,
   addNewBookingSuccess,
   deleteBookingError,
@@ -33,6 +36,7 @@ import {
   getBookingListsByDate,
   getBookingsDetails,
   checkinBooking,
+  checkinQRCode,
 } from "../../helpers/fakebackend_helper"
 
 function* fetchBookingsLists() {
@@ -71,11 +75,21 @@ function* checkInBookings({ bookingId }) {
   }
 }
 
+function* checkInQRCode({ data }) {
+  try {
+    const response = yield call(checkInQRCode, data)
+    yield put(checkinQRCodeSuccess(response))
+  } catch (error) {
+    yield put(checkinQRCodeFail(error))
+  }
+}
+
 function* bookingsSaga() {
   yield takeEvery(GET_BOOKING_LIST, fetchBookingsLists)
   yield takeEvery(GET_BOOKING_LIST_BY_DATE, fetchBookingsListByDate)
   yield takeEvery(GET_BOOKING_DETAIL, fetchBookingsDetails)
   yield takeEvery(CHECKIN_BOOKING, checkInBookings)
+  yield takeEvery(CHECKIN_QRCODE, checkInQRCode)
 }
 
 export default bookingsSaga

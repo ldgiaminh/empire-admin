@@ -115,6 +115,10 @@ export const getBookingsDetails = id => get(`${url.GET_BOOKING_DETAIL}/${id}`)
 //Check-in Booking
 export const checkinBooking = id => put(`${url.CHECKIN_BOOKING}/${id}`, id)
 
+//Check-in QrCode
+export const checkinQRCode = data =>
+  put(`${url.CHECKIN_QRCODE}?qrcode=${encodeURIComponent(data)}`)
+
 //Add New Booking
 //Update  Booking
 //Delete Booking

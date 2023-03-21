@@ -2,10 +2,16 @@ import React, { useState } from "react"
 import QrReader from "react-qr-reader"
 import toastr from "toastr"
 import "toastr/build/toastr.min.css"
-import { checkinBooking as checkInBooking } from "store/actions"
+import { useDispatch } from "react-redux"
+
+import {
+  checkinBooking as checkInBooking,
+  checkinQRCode as checkInQRCode,
+} from "store/actions"
 
 const QrScanner = props => {
   const { history } = props
+  const dispatch = useDispatch()
   const [qrData, setQRData] = useState("")
   const [showScanner, setShowScanner] = useState(true)
   const [bookingId, setBookingId] = useState(null)
@@ -14,35 +20,35 @@ const QrScanner = props => {
     if (data) {
       setShowScanner(false)
       setQRData(data)
-      //Call API close generation
-      fetch(
-        `https://dev-empire-api.azurewebsites.net/api/v1/booking-qrcode/close-generation?qrcode=${encodeURIComponent(
-          data
-        )}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4ZTc1ZjI2ZS0wNGU1LTRlNzctOWNkZi05YWM1MWM2MGU4M2IiLCJuYW1lIjoiVGjDtG5nIEhvw6BuZyIsIm5hbWVpZCI6IjciLCJyb2xlIjoiVVMiLCJuYmYiOjE2NzcxMzk5NDQsImV4cCI6MTcwODY3NTk0NCwiaWF0IjoxNjc3MTM5OTQ0fQ.CKR7ILcdt9KrGr-I6kxugrQ8jBeaMuTlDLPF8kW53EQ",
-          },
-        }
-      )
-        .then(response => {
-          if (!response.ok) {
-            setErrorStatus(response.status)
-            throw new Error("Network response was not ok")
-          }
-          return response.json()
-        })
-        .then(data => {
-          setBookingId(data.bookingId)
-          //Redirect to booking detail
-          goToCheckin(data.bookingId)
-        })
-        .catch(error => {
-          console.error("Error:", error)
-        })
+      dispatch(checkInQRCode(data))
+      goToCheckin(data.bookingId)
+      // fetch(
+      //   `https://dev-empire-api.azurewebsites.net/api/v1/booking-qrcode/close-generation?qrcode=${encodeURIComponent(
+      //     data
+      //   )}`,
+      //   {
+      //     method: "PUT",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization:
+      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4ZTc1ZjI2ZS0wNGU1LTRlNzctOWNkZi05YWM1MWM2MGU4M2IiLCJuYW1lIjoiVGjDtG5nIEhvw6BuZyIsIm5hbWVpZCI6IjciLCJyb2xlIjoiVVMiLCJuYmYiOjE2NzcxMzk5NDQsImV4cCI6MTcwODY3NTk0NCwiaWF0IjoxNjc3MTM5OTQ0fQ.CKR7ILcdt9KrGr-I6kxugrQ8jBeaMuTlDLPF8kW53EQ",
+      //     },
+      //   }
+      // )
+      //   .then(response => {
+      //     if (!response.ok) {
+      //       setErrorStatus(response.status)
+      //       throw new Error("Network response was not ok")
+      //     }
+      //     return response.json()
+      //   })
+      //   .then(data => {
+      //     setBookingId(data.bookingId)
+      //     goToCheckin(data.bookingId)
+      //   })
+      //   .catch(error => {
+      //     console.error("Error:", error)
+      //   })
     }
   }
   const handleError = err => {

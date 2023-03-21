@@ -105,6 +105,27 @@ export const checkinBookingFail = error => ({
 
 /*
 ================================================
+CHECK-IN QR CODE
+================================================
+*/
+
+export const checkinQRCode = data => ({
+  type: CHECKIN_BOOKING,
+  data,
+})
+
+export const checkinQRCodeSuccess = dataDetail => ({
+  type: CHECKIN_BOOKING_SUCCESS,
+  payload: dataDetail,
+})
+
+export const checkinQRCodeFail = error => ({
+  type: CHECKIN_BOOKING_FAIL,
+  error,
+})
+
+/*
+================================================
 ADD NEW BOOKING
 ================================================
 */
