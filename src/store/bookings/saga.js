@@ -75,9 +75,9 @@ function* checkInBookings({ bookingId }) {
   }
 }
 
-function* checkInQRCode({ data }) {
+function* checkInQRCodes({ data }) {
   try {
-    const response = yield call(checkInQRCode, data)
+    const response = yield call(checkinQRCode, data)
     yield put(checkinQRCodeSuccess(response))
   } catch (error) {
     yield put(checkinQRCodeFail(error))
@@ -89,7 +89,7 @@ function* bookingsSaga() {
   yield takeEvery(GET_BOOKING_LIST_BY_DATE, fetchBookingsListByDate)
   yield takeEvery(GET_BOOKING_DETAIL, fetchBookingsDetails)
   yield takeEvery(CHECKIN_BOOKING, checkInBookings)
-  yield takeEvery(CHECKIN_QRCODE, checkInQRCode)
+  yield takeEvery(CHECKIN_QRCODE, checkInQRCodes)
 }
 
 export default bookingsSaga

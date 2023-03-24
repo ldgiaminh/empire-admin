@@ -3,11 +3,14 @@ import QrReader from "react-qr-reader"
 import toastr from "toastr"
 import "toastr/build/toastr.min.css"
 import { useDispatch } from "react-redux"
+import uuid from "uuid"
 
 import {
   checkinBooking as checkInBooking,
   checkinQRCode as checkInQRCode,
 } from "store/actions"
+import { ref, set } from "firebase/database"
+import { db } from "helpers/firebase"
 
 const QrScanner = props => {
   const { history } = props
@@ -32,7 +35,7 @@ const QrScanner = props => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: obj.accessToken,
+            Authorization: "Bearer " + obj.accessToken,
           },
         }
       )
@@ -45,7 +48,7 @@ const QrScanner = props => {
         })
         .then(data => {
           setBookingId(data.bookingId)
-          goToCheckin(data.bookingId)
+          goToCheckin(data.bookingId, data.booking.code, data.booking.user.id)
         })
         .catch(error => {
           console.error("Error:", error)
@@ -78,8 +81,15 @@ const QrScanner = props => {
     hideMethod: "fadeOut",
   }
 
-  const goToCheckin = id => {
+  const goToCheckin = ({ id, code, userId }) => {
     dispatch(checkInBooking(id))
+    const notificationId = uuid.v4()
+    set(ref(db, `users/${userId}/notifications/${notificationId}`), {
+      isRead: "false",
+      message: "Check-in thành công #" + code,
+      time: isoDateTime,
+      title: "Bạn đã check-in thành công",
+    })
     toastr.success("Check-in thành công", "Thành công")
     history.push(`/booking-detail/${id}`)
   }

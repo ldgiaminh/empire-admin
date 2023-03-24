@@ -47,8 +47,8 @@ const OrderSerives = props => {
   document.title = "Theo dõi tiến trình | Empire Admin"
 
   const statusServices = [
-    { id: "0", title: "Đang chuẩn đoán" },
-    { id: "1", title: "Xác nhận giá" },
+    { id: "0", title: "Phân công" },
+    { id: "1", title: "Đang chuẩn đoán" },
     { id: "2", title: "Chờ xác nhận và thanh toán" },
     { id: "3", title: "Đang thực hiện" },
     { id: "4", title: "Chờ khách nhận xe" },

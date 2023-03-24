@@ -25,22 +25,14 @@ import Select from "react-select"
 //Import Breadcrumb
 import Breadcrumbs from "../../../components/Common/Breadcrumb"
 
-import {
-  getOrderServicesDetails as onGetOrderServiceDetail,
-  putOrderServices as onRecommendService,
-  putAssignExperts as assignExpert,
-  getStatusLog as onGetStatusLog,
-} from "store/order-services/actions"
+import { getOrderServicesDetails as onGetOrderServiceDetail } from "store/order-services/actions"
 
 import { getExperts as onGetExpert } from "store/actions"
 
 //redux
 import { useSelector, useDispatch } from "react-redux"
-import CardUser from "./card-user"
-import MiniWidget from "./mini-widget"
-import AssignTechnicians from "./assign-technicians"
+
 import Cart from "./cart"
-import Symptoms from "./symptom"
 
 const OrderServiceDetail = props => {
   //meta title
@@ -289,13 +281,7 @@ const OrderServiceDetail = props => {
                                     Tình trạng khách mô tả :
                                   </th>
                                   <td>
-                                    {Array.isArray(
-                                      orderServicesDetails.receivingStatus
-                                    )
-                                      ? orderServicesDetails.receivingStatus.join(
-                                          ", "
-                                        )
-                                      : ""}
+                                    {orderServicesDetails.receivingStatus}
                                   </td>
                                 </tr>
                                 <tr>

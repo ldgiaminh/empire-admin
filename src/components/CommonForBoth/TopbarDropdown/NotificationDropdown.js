@@ -10,52 +10,101 @@ import avatar4 from "../../../assets/images/users/avatar-4.jpg"
 
 //i18n
 import { withTranslation } from "react-i18next"
-import { child, get, onValue, ref } from "firebase/database"
+import { child, get, off, onValue, ref, update } from "firebase/database"
 import { db } from "helpers/firebase"
 
 const NotificationDropdown = props => {
   // Declare a new state variable, which we'll call "menu"
-  const [menu, setMenu] = useState(false)
-
-  const [userId, setUserId] = useState("")
-  const [notis, setNotis] = useState({})
-
   useEffect(() => {
     if (localStorage.getItem("authUser")) {
       const obj = JSON.parse(localStorage.getItem("authUser"))
       setUserId(obj.id)
     }
   }, [])
+  const [menu, setMenu] = useState(false)
 
+  const [userId, setUserId] = useState("")
+  const [notis, setNotis] = useState({})
+
+  // useEffect(() => {
+  //   get(child(ref(db), `users/${userId}/notifications/`))
+  //     .then(snapshot => {
+  //       if (snapshot.exists()) {
+  //         const fetched = snapshot.val()
+  //         setNotis(fetched)
+  //       } else {
+  //         console.log("")
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error(error)
+  //     })
+  // }, [userId])
+
+  // const notisArray = Object.values(notis)
+
+  // // Sort the notis array by time in descending order
+  // const sortedNotis = notisArray.sort(
+  //   (a, b) => new Date(b.time) - new Date(a.time)
+  // )
+
+  //console.log(sortedNotis)
   useEffect(() => {
-    get(child(ref(db), `users/${userId}/notifications/`))
-      .then(snapshot => {
+    const notificationsRef = ref(db, `users/${userId}/notifications`)
+
+    // Listen for changes to the notifications node
+    onValue(
+      notificationsRef,
+      snapshot => {
         if (snapshot.exists()) {
           const fetched = snapshot.val()
-          setNotis(fetched)
+          // Convert the fetched object to an array
+          const fetchedArray = Object.values(fetched)
+          // Sort the fetchedArray by time in descending order
+          const sortedNotis = fetchedArray.sort(
+            (a, b) => new Date(b.time) - new Date(a.time)
+          )
+          setNotis(sortedNotis)
         } else {
-          console.log("")
+          setNotis([])
         }
-      })
-      .catch(error => {
-        console.error(error)
-      })
+      },
+      {
+        // Keep the event listener active even if the component unmounts
+        // This ensures that the notifications are updated in real-time
+        // when new notifications are added to the database
+        keepSynced: true,
+      }
+    )
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      off(notificationsRef)
+    }
   }, [userId])
 
-  const createAtDate = notis.time
-  const createDate = new Date(createAtDate)
-  const formattedDate1 = createDate.toLocaleDateString("vi-VN", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  })
-  const formattedTime1 = createDate.toLocaleTimeString("vi-VN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  })
-  const formattedDateTime1 = `${formattedTime1} - ${formattedDate1}`
+  const notisArray = Object.values(notis)
+
+  const unreadNotis = notisArray.filter(noti => noti.isRead === "false")
+
+  const unreadCount = unreadNotis.length
+
+  const markAllAsRead = async () => {
+    const notificationsRef = ref(db, `users/${userId}/notifications`)
+    const snapshot = await get(notificationsRef)
+    const notifications = snapshot.val()
+
+    const unreadNotis = Object.keys(notifications).filter(
+      key => notifications[key].isRead === "false"
+    )
+
+    const updates = {}
+    unreadNotis.forEach(noti => {
+      updates[`${noti}/isRead`] = "true"
+    })
+
+    update(notificationsRef, updates)
+  }
 
   return (
     <React.Fragment>
@@ -69,9 +118,12 @@ const NotificationDropdown = props => {
           className="btn header-item noti-icon"
           tag="button"
           id="page-header-notifications-dropdown"
+          onClick={markAllAsRead}
         >
           <i className="bx bx-bell bx-tada" />
-          <span className="badge bg-danger rounded-pill">6</span>
+          {unreadCount > 0 && (
+            <span className="badge bg-danger rounded-pill">{unreadCount}</span>
+          )}
         </DropdownToggle>
 
         <DropdownMenu className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0">
@@ -90,27 +142,44 @@ const NotificationDropdown = props => {
           </div>
 
           <SimpleBar style={{ height: "230px" }}>
-            <>
-              <Link to="#" className="text-reset notification-item">
-                <div className="d-flex">
-                  <div className="avatar-xs me-3">
-                    <span className="avatar-title bg-primary rounded-circle font-size-16">
-                      <i className="bx bx-cart" />
-                    </span>
-                  </div>
-                  <div className="flex-grow-1">
-                    <h6 className="mt-0 mb-1">{notis.title}</h6>
-                    <div className="font-size-12 text-muted">
-                      <p className="mb-1">{notis.message}</p>
-                      <p className="mb-0">
-                        <i className="mdi mdi-clock-outline" />{" "}
-                        {formattedDateTime1}
-                      </p>
+            {Object.keys(notis).map(key => {
+              const createAtDate = notis[key].time
+              const createDate = new Date(createAtDate)
+              const formattedDate1 = createDate.toLocaleDateString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })
+              const formattedTime1 = createDate.toLocaleTimeString("vi-VN", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false,
+              })
+              const formattedDateTime1 = `${formattedTime1} - ${formattedDate1}`
+
+              return (
+                <Link to="#" key={key} className="text-reset notification-item">
+                  <div className="d-flex">
+                    <div className="avatar-xs me-3">
+                      <span className="avatar-title bg-primary rounded-circle font-size-16">
+                        <i className="bx bx-cart" />
+                      </span>
+                    </div>
+                    <div className="flex-grow-1">
+                      <h6 className="mt-0 mb-1">{notis[key].title}</h6>
+                      <div className="font-size-12 text-muted">
+                        <p className="mb-1">{notis[key].message}</p>
+                        <p className="mb-0">
+                          <i className="mdi mdi-clock-outline" />{" "}
+                          {formattedDateTime1}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            </>
+                </Link>
+              )
+            })}
 
             {/* <Link to="" className="text-reset notification-item">
               <div className="d-flex">

@@ -21,6 +21,7 @@ const INIT_STATE = {
   bookings: [],
   bookingDetail: {},
   error: {},
+  dataDetail: {},
 }
 
 const bookings = (state = INIT_STATE, action) => {
@@ -77,14 +78,7 @@ const bookings = (state = INIT_STATE, action) => {
     case CHECKIN_QRCODE_SUCCESS:
       return {
         ...state,
-        bookingDetail: state.bookingDetail.map(booking =>
-          booking.id.toString() === action.payload.id.toString()
-            ? { booking, ...action.payload }
-            : booking
-        ),
-        bookings: state.bookings.filter(
-          booking => booking.id.toString() !== action.payload.id.toString()
-        ),
+        dataDetail: action.payload,
       }
 
     case CHECKIN_QRCODE_FAIL:

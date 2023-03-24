@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import toastr from "toastr"
 import "toastr/build/toastr.min.css"
+import classnames from "classnames"
+
 import PropTypes from "prop-types"
 import {
   Button,
@@ -138,18 +140,57 @@ const Cart = ({ details, services, healthCarRecord, order }) => {
 
                 <h5 className="font-size-15 mt-4">Kết quả chuẩn đoán :</h5>
 
-                <p className="text-muted">{healthCarRecord.symptom}</p>
+                <p className="text-muted mb-4">{healthCarRecord.symptom}</p>
 
-                <div className="text-muted mt-4">
+                <Row className="mb-3">
+                  <Col md="6">
+                    {healthCarRecord.healthCarRecordProblems &&
+                      healthCarRecord.healthCarRecordProblems.map(
+                        (problem, i) => (
+                          <div key={i}>
+                            <h6 className="mb-3">
+                              <i className="fa fa-caret-right font-size-16 align-middle text-primary me-2" />
+                              {problem.problem.name}
+                            </h6>
+                            {problem.problem.items &&
+                              problem.problem.items.map((item, j) => (
+                                <React.Fragment key={j}>
+                                  <p>{item.name + ": " + item.presentPrice}</p>
+                                </React.Fragment>
+                              ))}
+                          </div>
+                        )
+                      )}
+                  </Col>
+                  {/* <Col md="6">
+                    {product.features &&
+                      product.features.map((item, i) => (
+                        <div key={i}>
+                          <p className="text-muted">
+                            <i
+                              className={classnames(
+                                item.icon,
+                                "font-size-16 align-middle text-primary me-2"
+                              )}
+                            />
+                            {item.type && `${item.type}:`}
+                            {item.value}
+                          </p>
+                        </div>
+                      ))}
+                  </Col> */}
+                </Row>
+
+                {/* <div className="text-muted mt-4">
                   {confirmedServices.map((service, index) => (
                     <p key={index}>
                       <i className="mdi mdi-chevron-right text-primary me-1" />{" "}
                       {service.item.name}
                     </p>
                   ))}
-                </div>
+                </div> */}
 
-                {unconfirmedServices.length > 0 && (
+                {/* {unconfirmedServices.length > 0 && (
                   <>
                     <h5>Dịch vụ không xác nhận</h5>
                     {unconfirmedServices.map((service, index) => (
@@ -159,7 +200,7 @@ const Cart = ({ details, services, healthCarRecord, order }) => {
                       </p>
                     ))}
                   </>
-                )}
+                )} */}
                 {order.status === 4 ? (
                   <Row className="mt-4">
                     <Col sm="12">
@@ -196,27 +237,33 @@ const Cart = ({ details, services, healthCarRecord, order }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {services.map((service, index) => (
-                        <tr key={index}>
-                          <td>
-                            <h5 className="font-size-14 text-truncate">
-                              <Link to={"#"} className="text-dark">
-                                {service.item.name}
-                              </Link>
-                            </h5>
-                          </td>
-                          <td>{service.price}₫</td>
-                          <td>
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              id={service.id}
-                              defaultChecked={service.isConfirmed}
-                              onChange={handleInputChange}
-                            />
-                          </td>
-                        </tr>
-                      ))}
+                      {/* {healthCarRecord.healthCarRecordProblems.map(
+                        (problem, problemIndex) =>
+                        
+                          problem.items.map((item, itemIndex) => (
+                         
+                            <tr key={`${problemIndex}-${itemIndex}`}>
+                              <td>
+                                <h5 className="font-size-14 text-truncate">
+                                  <Link to={"#"} className="text-dark">
+                                    {item.name}
+                                  </Link>
+                                </h5>
+                              </td>
+                              <td>{item.presentPrice}₫</td>
+                            
+                              /* <td>
+        <input
+          type="checkbox"
+          className="form-check-input"
+          id={`${problemIndex}-${itemIndex}`}
+          defaultChecked={item.isConfirmed}
+          onChange={handleInputChange}
+        />
+      </td>
+                            </tr>
+                          ))
+                      )} */}
                     </tbody>
                   </Table>
                 </div>

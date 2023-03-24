@@ -114,7 +114,7 @@ const BookingDetails = props => {
     dispatch(checkInBooking(id))
     toastr.success("Check-in thành công", "Thành công")
     dispatch(onGetBookingDetail(id))
-    sendNotification(bookingDetail.user.id)
+    sendNotification(id)
   }
 
   /*
