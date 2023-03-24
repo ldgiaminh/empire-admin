@@ -48,7 +48,7 @@ const QrScanner = props => {
         })
         .then(data => {
           setBookingId(data.bookingId)
-          goToCheckin(data.bookingId, data.booking.code, data.booking.user.id)
+          goToCheckin(data.bookingId, data.code, data.user.id)
         })
         .catch(error => {
           console.error("Error:", error)
